@@ -94,7 +94,7 @@ const FloatingDockDesktop = ({
       onMouseMove={(e: { pageY: number }) => mouseY.set(e.pageY)}
       onMouseLeave={() => mouseY.set(Infinity)}
       className={cn(
-        "mx-auto flex flex-col w-20 py-2 gap-4 items-center justify-center rounded-2xl bg-gray-500  bg-clip-padding backdrop-filter backdrop-blur-3xl  bg-opacity-10 border border-gray-100 fixed left-16 z-10 top-1/2 -translate-y-1/2",
+        "mx-auto hidden xl:flex flex-col w-20 py-2 gap-4 items-center justify-center rounded-2xl bg-gray-500  bg-clip-padding backdrop-filter backdrop-blur-3xl  bg-opacity-10 border border-gray-100 fixed left-36 z-10 top-1/2 -translate-y-1/2",
         className
       )}
     >

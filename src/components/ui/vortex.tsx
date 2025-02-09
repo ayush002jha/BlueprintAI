@@ -1,5 +1,6 @@
+"use client"
 import { cn } from "@/lib/utils";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { createNoise3D } from "simplex-noise";
 import { motion } from "framer-motion";
 
@@ -20,6 +21,9 @@ interface VortexProps {
 export const Vortex = (props: VortexProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef(null);
+  const animationFrameRef = useRef<number | null>(null);
+  const hueRef = useRef<number>(props.baseHue || 250);
+  
   const particleCount = props.particleCount || 700;
   const particlePropCount = 9;
   const particlePropsLength = particleCount * particlePropCount;
@@ -28,9 +32,8 @@ export const Vortex = (props: VortexProps) => {
   const rangeTTL = 150;
   const baseSpeed = props.baseSpeed || 0.0;
   const rangeSpeed = props.rangeSpeed || 1.5;
-  const baseRadius = props.baseRadius || 2; // Increased base radius
-  const rangeRadius = props.rangeRadius || 3; // Increased range radius
-  const baseHue = props.baseHue || 250;
+  const baseRadius = props.baseRadius || 2;
+  const rangeRadius = props.rangeRadius || 3;
   const rangeHue = 40;
   const noiseSteps = 3;
   const xOff = 0.00125;
@@ -50,12 +53,15 @@ export const Vortex = (props: VortexProps) => {
   const fadeInOut = (t: number, m: number): number => {
     let hm = 0.5 * m;
     return Math.abs(((t + hm) % m) - hm) / hm;
-  };     
-
-
+  };
 
   const lerp = (n1: number, n2: number, speed: number): number =>
     (1 - speed) * n1 + speed * n2;
+
+  const updateHue = () => {
+    hueRef.current = (hueRef.current + 0.3) % 360;
+    animationFrameRef.current = requestAnimationFrame(updateHue);
+  };
 
   const setup = () => {
     const canvas = canvasRef.current;
@@ -94,7 +100,7 @@ export const Vortex = (props: VortexProps) => {
     ttl = baseTTL + rand(rangeTTL);
     speed = baseSpeed + rand(rangeSpeed);
     radius = baseRadius + rand(rangeRadius);
-    hue = baseHue + rand(rangeHue);
+    hue = hueRef.current + rand(rangeHue);
 
     particleProps.set([x, y, vx, vy, life, ttl, speed, radius, hue], i);
   };
@@ -113,8 +119,7 @@ export const Vortex = (props: VortexProps) => {
     ctx.save();
     ctx.lineCap = "round";
     ctx.lineWidth = radius;
-    // Adjusted color and opacity for better visibility on white
-    ctx.strokeStyle = `hsla(${hue},100%,40%,${fadeInOut(life, ttl) * 0.8})`;
+    ctx.strokeStyle = `hsla(${(hue + hueRef.current) % 360},100%,40%,${fadeInOut(life, ttl) * 0.8})`;
     ctx.beginPath();
     ctx.moveTo(x, y);
     ctx.lineTo(x2, y2);
@@ -203,14 +208,14 @@ export const Vortex = (props: VortexProps) => {
     ctx: CanvasRenderingContext2D
   ) => {
     ctx.save();
-    ctx.filter = "blur(12px) brightness(150%)"; // Increased blur and brightness
-    ctx.globalCompositeOperation = "darken"; // Changed blend mode
+    ctx.filter = "blur(12px) brightness(150%)";
+    ctx.globalCompositeOperation = "darken";
     ctx.drawImage(canvas, 0, 0);
     ctx.restore();
 
     ctx.save();
-    ctx.filter = "blur(6px) brightness(150%)"; // Increased brightness
-    ctx.globalCompositeOperation = "darken"; // Changed blend mode
+    ctx.filter = "blur(6px) brightness(150%)";
+    ctx.globalCompositeOperation = "darken";
     ctx.drawImage(canvas, 0, 0);
     ctx.restore();
   };
@@ -220,20 +225,31 @@ export const Vortex = (props: VortexProps) => {
     ctx: CanvasRenderingContext2D
   ) => {
     ctx.save();
-    ctx.globalCompositeOperation = "darken"; // Changed blend mode
+    ctx.globalCompositeOperation = "darken";
     ctx.drawImage(canvas, 0, 0);
     ctx.restore();
   };
 
   useEffect(() => {
     setup();
-    window.addEventListener("resize", () => {
+    updateHue(); // Start hue animation
+
+    const handleResize = () => {
       const canvas = canvasRef.current;
       const ctx = canvas?.getContext("2d");
       if (canvas && ctx) {
         resize(canvas, ctx);
       }
-    });
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      if (animationFrameRef.current !== null) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+    };
   }, []);
 
   return (
@@ -242,7 +258,7 @@ export const Vortex = (props: VortexProps) => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         ref={containerRef}
-        className="absolute h-full w-full inset-0 z-0 bg-transparent flex items-center justify-center"
+        className="absolute h-full w-full z-0 bg-transparent flex items-center justify-center"
       >
         <canvas ref={canvasRef}></canvas>
       </motion.div>

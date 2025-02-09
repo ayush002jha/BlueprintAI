@@ -6,13 +6,11 @@ import { useState } from "react";
 import HashLoader from "react-spinners/HashLoader";
 
 export default function Chatbot() {
-  const [loading, setLoading] = useState<boolean>(false);
-  const { messages, input, handleInputChange, handleSubmit } = useChat({
-    onFinish: () => setLoading(false),
+  const { messages, input, handleInputChange, handleSubmit, isLoading } = useChat({
   });
 
   return (
-    <div className="flex flex-col w-full max-w-5xl h-[95dvh] max-h-screen relative rounded-2xl bg-gray-500  bg-clip-padding backdrop-filter backdrop-blur-3xl  bg-opacity-10 border">
+    <div className="flex flex-col w-full max-w-5xl h-screen lg:h-[95dvh] max-h-screen relative rounded-2xl bg-gray-500  bg-clip-padding backdrop-filter backdrop-blur-3xl  bg-opacity-10 border">
       <div className="py-6 px-10">
         <h1 className="text-6xl font-bold tracking-tight font-[family-name:var(--font-space-grotesk)]">
           Blueprint AI
@@ -38,11 +36,7 @@ export default function Chatbot() {
 
       <div className="absolute bottom-0 left-0 right-0 px-10 pb-4 ">
         <form
-          onSubmit={(event) => {
-            setLoading(!loading);
-            handleSubmit();
-            event.preventDefault();
-          }}
+          onSubmit={handleSubmit}
           className="flex flex-row rounded-full shadow-xl  bg-gray-100  bg-clip-padding backdrop-filter backdrop-blur-3xl  bg-opacity-70 border border-gray-200"
         >
           <input
@@ -50,11 +44,11 @@ export default function Chatbot() {
             value={input}
             placeholder="Ask me anything ..."
             onChange={handleInputChange}
-            disabled={loading}
+            disabled={isLoading}
           />
           <button type="submit" className="w-12 ">
             {
-                loading?
+                isLoading?
                 <HashLoader size={28} color="#0077CC" className="mx-auto "/>
                 :
                 <ArrowUp className="text-gray-500 mx-auto "  />
