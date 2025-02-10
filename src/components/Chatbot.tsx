@@ -1,58 +1,146 @@
 "use client";
 
+import { cn } from "@/lib/utils";
 import { useChat } from "ai/react";
-import { ArrowUp } from "lucide-react";
-import { useState } from "react";
+import { ArrowUp, Dna, UserRound } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
 import HashLoader from "react-spinners/HashLoader";
+import BounceLoader from "react-spinners/BounceLoader";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 export default function Chatbot() {
-  const { messages, input, handleInputChange, handleSubmit, isLoading } = useChat({
-  });
+  const {
+    messages,
+    input,
+    handleInputChange,
+    handleSubmit,
+    isLoading,
+    setInput,
+  } = useChat({});
+
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
+  const [showQuestions, setShowQuestions] = useState(true);
+  const questions = [
+    "🧬 What is Bryan Johnson's Don't Die Blueprint in simple terms?",
+    "🚀 What's the first step to start following the Blueprint?",
+    "📊 What biomarkers does Blueprint track and why?",
+    "💸 What if I can't afford all Blueprint supplements?",
+  ];
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+  const handleQuestionClick = (question: string) => {
+    setInput(question); // Set the input value
+    setShowQuestions(false);
+
+    // Programmatically submit the form after a short delay
+    setTimeout(() => {
+      const form = document.querySelector("form") as HTMLFormElement;
+      if (form) form.requestSubmit();
+    }, 50);
+  };
 
   return (
-    <div className="flex flex-col w-full max-w-5xl h-screen lg:h-[95dvh] max-h-screen relative rounded-2xl bg-gray-500  bg-clip-padding backdrop-filter backdrop-blur-3xl  bg-opacity-10 border">
-      <div className="py-6 px-10">
-        <h1 className="text-6xl font-bold tracking-tight font-[family-name:var(--font-space-grotesk)]">
+    <div className="flex flex-col w-full max-w-5xl h-screen lg:h-[95dvh] max-h-screen relative rounded-2xl bg-gray-500 bg-clip-padding backdrop-filter backdrop-blur-3xl bg-opacity-10 border  items-center justify-center">
+      <div className="my-6 px-10 flex items-center justify-center gap-4 self-start">
+        <h1 className="text-6xl text-gray-700 font-bold tracking-tight font-[family-name:var(--font-space-grotesk)]">
           Blueprint AI
         </h1>
+        <Dna size={50} color="#0077CC" />
       </div>
 
-      <div
-        className="flex-1 overflow-y-auto p-10 pb-20 [&::-webkit-scrollbar]:w-2 
-          [&::-webkit-scrollbar-track]:bg-transparent
-          [&::-webkit-scrollbar-thumb]:bg-zinc-300 
-          [&::-webkit-scrollbar-thumb]:rounded-full
-          dark:[&::-webkit-scrollbar-thumb]:bg-zinc-600
-          hover:[&::-webkit-scrollbar-thumb]:bg-zinc-400
-          dark:hover:[&::-webkit-scrollbar-thumb]:bg-zinc-500"
-      >
-        {messages.map((m) => (
-          <div key={m.id} className="whitespace-pre-wrap mb-4">
-            {m.role === "user" ? "User: " : "AI: "}
-            {m.content}
+      {showQuestions && (
+        <div className="flex items-center justify-center gap-4 self-start px-12 my-12 ">
+          <BounceLoader size={60} color="#0077CC" />
+          <div>
+            <p className="text-lg font-light">Hi, You!</p>
+            <p className="text-xl font-semibold">How can I help you?</p>
           </div>
-        ))}
-      </div>
+        </div>
+      )}
+
+      {showQuestions ? (
+        <div className="grid grid-cols-2 gap-4 w-3/4 h-2/4 mb-auto">
+          {questions.map((q, index) => (
+            <button
+              key={index}
+              className="flex items-center text-lg font-medium  justify-center p-6  rounded-xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-90 border border-gray-100 text-center shadow-lg w-full h-full"
+              type="button" // Changed to type="button"
+              onClick={() => handleQuestionClick(q)} // Use new handler
+            >
+              {q}
+            </button>
+          ))}
+        </div>
+      ) : (
+        <div
+          className="flex flex-col items-end flex-1 overflow-y-auto p-10 pb-20 w-full h-full [&::-webkit-scrollbar]:w-2 
+            [&::-webkit-scrollbar-track]:bg-transparent
+            [&::-webkit-scrollbar-thumb]:bg-zinc-300 
+            [&::-webkit-scrollbar-thumb]:rounded-full
+            dark:[&::-webkit-scrollbar-thumb]:bg-zinc-600
+            hover:[&::-webkit-scrollbar-thumb]:bg-zinc-400
+            dark:hover:[&::-webkit-scrollbar-thumb]:bg-zinc-500"
+        >
+          {messages.map((m) => (
+            <div
+              key={m.id}
+              className={cn(
+                "whitespace-pre  mb-4 flex  gap-6 w-fit p-4 bg-gray-100 rounded-xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-90 border border-gray-100",
+                m.role == "assistant" && "self-start"
+              )}
+            >
+              {m.role === "user" ? (
+                <>
+                  <ReactMarkdown
+                    className="flex-col text-lg font-normal"
+                    remarkPlugins={[remarkGfm]}
+                  >
+                    {m.content}
+                  </ReactMarkdown>
+                  <UserRound size={30} className="shrink-0" />
+                </>
+              ) : (
+                <>
+                  <BounceLoader
+                    size={30}
+                    color="#0077CC"
+                    className="shrink-0"
+                  />
+                  <ReactMarkdown
+                    className="flex-col text-lg font-normal"
+                    remarkPlugins={[remarkGfm]}
+                  >
+                    {m.content}
+                  </ReactMarkdown>
+                </>
+              )}
+            </div>
+          ))}
+          <div ref={messagesEndRef} />
+        </div>
+      )}
 
       <div className="absolute bottom-0 left-0 right-0 px-10 pb-4 ">
         <form
           onSubmit={handleSubmit}
-          className="flex flex-row rounded-full shadow-xl  bg-gray-100  bg-clip-padding backdrop-filter backdrop-blur-3xl  bg-opacity-70 border border-gray-200"
+          className="flex flex-row rounded-full shadow-xl bg-gray-100 bg-clip-padding backdrop-filter backdrop-blur-3xl bg-opacity-70 border border-gray-200"
         >
           <input
-            className="w-full h-12 p-2 px-4  rounded-full shadow-xl  outline-none"
+            className="w-full h-12 p-2 px-4 rounded-full shadow-xl outline-none"
             value={input}
             placeholder="Ask me anything ..."
             onChange={handleInputChange}
             disabled={isLoading}
           />
           <button type="submit" className="w-12 ">
-            {
-                isLoading?
-                <HashLoader size={28} color="#0077CC" className="mx-auto "/>
-                :
-                <ArrowUp className="text-gray-500 mx-auto "  />
-            }
+            {isLoading ? (
+              <HashLoader size={28} color="#0077CC" className="mx-auto " />
+            ) : (
+              <ArrowUp className="text-gray-500 mx-auto " />
+            )}
           </button>
         </form>
       </div>
