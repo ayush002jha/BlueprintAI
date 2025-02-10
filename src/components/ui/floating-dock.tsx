@@ -187,3 +187,4 @@ const IconContainer = React.memo(({
     </motion.div>
   );
 });
+IconContainer.displayName = "IconContainer";

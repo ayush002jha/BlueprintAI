@@ -88,14 +88,14 @@ export default function Chatbot() {
             <div
               key={m.id}
               className={cn(
-                "whitespace-pre  mb-4 flex  gap-6 w-fit p-4 bg-gray-100 rounded-xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-90 border border-gray-100",
+                "whitespace-pre  mb-4 flex  gap-6  p-4 bg-gray-100 rounded-xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-90 border border-gray-100",
                 m.role == "assistant" && "self-start"
               )}
             >
               {m.role === "user" ? (
                 <>
                   <ReactMarkdown
-                    className="flex-col text-lg font-normal"
+                    className="flex-col text-lg font-normal break-words whitespace-pre-wrap"
                     remarkPlugins={[remarkGfm]}
                   >
                     {m.content}
@@ -110,7 +110,7 @@ export default function Chatbot() {
                     className="shrink-0"
                   />
                   <ReactMarkdown
-                    className="flex-col text-lg font-normal"
+                    className="flex-col text-lg font-normal break-words whitespace-pre-wrap"
                     remarkPlugins={[remarkGfm]}
                   >
                     {m.content}
