@@ -16,7 +16,7 @@ function Test() {
     baseRadius={100}
     baseSpeed={0.0}
     className="flex  p-8 w-full min-h-screen max-h-screen justify-end gap-6"
-  >
+  > 
     <FloatingDock />
     {/* <Activity /> */}
     {/* <Chatbot /> */}

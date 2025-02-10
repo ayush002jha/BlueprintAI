@@ -23,10 +23,12 @@ async function seed(url: string, limit: number, indexName: string, options: Seed
     const { splittingMethod, chunkSize, chunkOverlap } = options;
 
     // Create a new Crawler with depth 1 and maximum pages as limit
-    const crawler = new Crawler(1, limit || 100);
+    const crawler = new Crawler(3, limit || 100);
 
     // Crawl the given URL and get the pages
     const pages = await crawler.crawl(url) as Page[];
+
+    // console.log(pages)
 
     // Choose the appropriate document splitter based on the splitting method
     const splitter: DocumentSplitter = splittingMethod === 'recursive' ?
@@ -49,7 +51,24 @@ async function seed(url: string, limit: number, indexName: string, options: Seed
     const index = pinecone.Index(indexName)
 
     // Get the vector embeddings for the documents
-    const vectors = await Promise.all(documents.flat().map(embedDocument));
+    // const vectors = await Promise.all(documents.flat().map(embedDocument));
+
+    const batchSize = 8;
+    const delayMs = 60000; // 60,000 milliseconds = 1 minute
+    const vectors: PineconeRecord[] = []
+    console.log(`CHUNKS: ${documents.length}`)
+
+    for (let i = 0; i < documents.length; i += batchSize) {
+      console.log(`BATCH ${i/batchSize} PROCESSING... `)
+      const batch = documents.slice(i, i + batchSize);
+      const batchResults = await Promise.all(batch.flat().map(embedDocument));
+      
+      vectors.push(...batchResults)
+      console.log(`- ${vectors.length} PROCESSED... `)
+      if (i + batchSize < documents.length) {
+        await sleep(delayMs);
+      }
+    }
 
     // Upsert vectors into the Pinecone index
     await chunkedUpsert(index, vectors, '', 10);
@@ -62,13 +81,28 @@ async function seed(url: string, limit: number, indexName: string, options: Seed
   }
 }
 
+function sleep(ms:number) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function sanitizeInput(input) {
+  // Define a whitelist of allowed characters (alphanumeric and some punctuation)
+  const whitelist = /[^a-zA-Z0-9-_.~]/g;
+  // Replace characters not in the whitelist with an empty string
+  return input.replace(whitelist, '');
+}
 async function embedDocument(doc: Document): Promise<PineconeRecord> {
   try {
+    // Introduce a 10-second delay before processing each document
+    // await sleep(10000);
     // Generate OpenAI embeddings for the document content
     const embedding = await getEmbeddings(doc.pageContent);
 
+    // console.log(`URL: ${doc.metadata.url}`)
     // Create a hash of the document content
-    const hash = md5(doc.pageContent);
+    const sanitizedContent = sanitizeInput(doc.pageContent);
+    const hash = md5(sanitizedContent);
+    
 
     // Return the vector embedding object
     return {
@@ -110,7 +144,7 @@ async function prepareDocument(page: Page, splitter: DocumentSplitter): Promise<
       metadata: {
         ...doc.metadata,
         // Create a hash of the document content
-        hash: md5(doc.pageContent)
+        hash: md5(sanitizeInput(doc.pageContent))
       },
     };
   });

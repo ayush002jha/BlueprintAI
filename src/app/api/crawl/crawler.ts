@@ -14,31 +14,43 @@ class Crawler {
   constructor(private maxDepth = 2, private maxPages = 1) { }
 
   async crawl(startUrl: string): Promise<Page[]> {
-    // Add the start URL to the queue
+    console.log('\n=== Starting Crawl ===');
+    console.log(`Start URL: ${startUrl}`);
+    console.log(`Max Depth: ${this.maxDepth}`);
+    console.log(`Max Pages: ${this.maxPages}\n`);
+    
     this.addToQueue(startUrl);
 
-    // While there are URLs in the queue and we haven't reached the maximum number of pages...
     while (this.shouldContinueCrawling()) {
-      // Dequeue the next URL and depth
       const { url, depth } = this.queue.shift()!;
 
-      // If the depth is too great or we've already seen this URL, skip it
-      if (this.isTooDeep(depth) || this.isAlreadySeen(url)) continue;
+      if (this.isTooDeep(depth) || this.isAlreadySeen(url)) {
+        console.log(`Skipping ${url} (${this.isTooDeep(depth) ? 'too deep' : 'already seen'})`);
+        continue;
+      }
 
-      // Add the URL to the set of seen URLs
+      console.log(`\nCrawling (${this.pages.length + 1}/${this.maxPages}): ${url}`);
+      console.log(`Depth: ${depth}/${this.maxDepth}`);
+      
       this.seen.add(url);
-
-      // Fetch the page HTML
       const html = await this.fetchPage(url);
 
-      // Parse the HTML and add the page to the list of crawled pages
-      this.pages.push({ url, content: this.parseHtml(html) });
-
-      // Extract new URLs from the page HTML and add them to the queue
-      this.addNewUrlsToQueue(this.extractUrls(html, url), depth);
+      if (html) {
+        this.pages.push({ url, content: this.parseHtml(html) });
+        const newUrls = this.extractUrls(html, url);
+        console.log(`Found ${newUrls.length} links on page`);
+        this.addNewUrlsToQueue(newUrls, depth);
+      }
     }
 
-    // Return the list of crawled pages
+    console.log('\n=== Crawl Complete ===');
+    console.log('URLs crawled successfully:');
+    this.pages.forEach((page, index) => {
+      console.log(`${index + 1}. ${page.url}`);
+    });
+    console.log(`\nTotal pages crawled: ${this.pages.length}`);
+    console.log('===================\n');
+
     return this.pages;
   }
 
@@ -65,7 +77,8 @@ class Crawler {
   private async fetchPage(url: string): Promise<string> {
     try {
       const response = await fetch(url);
-      return await response.text();
+      const text = await response.text();
+      return text;
     } catch (error) {
       console.error(`Failed to fetch ${url}: ${error}`);
       return '';
@@ -81,7 +94,14 @@ class Crawler {
   private extractUrls(html: string, baseUrl: string): string[] {
     const $ = cheerio.load(html);
     const relativeUrls = $('a').map((_, link) => $(link).attr('href')).get() as string[];
-    return relativeUrls.map(relativeUrl => new URL(relativeUrl, baseUrl).href);
+    return relativeUrls.map(relativeUrl => {
+      try {
+        return new URL(relativeUrl, baseUrl).href;
+      } catch (error) {
+        console.warn(`Invalid URL found: ${relativeUrl}`);
+        return '';
+      }
+    }).filter(url => url); // Remove empty strings
   }
 }
 
