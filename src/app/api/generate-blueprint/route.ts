@@ -3,6 +3,8 @@ import { context} from './data';
 import { generateText } from 'ai';
 import { openai } from '@ai-sdk/openai';
 
+export const maxDuration = 30; // Sets the function timeout to 30 seconds
+
 
 export async function POST(request: NextRequest) {
   try {
