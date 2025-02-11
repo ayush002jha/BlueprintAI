@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { useChat } from "ai/react";
-import { ArrowUp, Dna, UserRound } from "lucide-react";
+import { ArrowUp, UserRound } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import HashLoader from "react-spinners/HashLoader";
 import BounceLoader from "react-spinners/BounceLoader";
@@ -17,7 +17,7 @@ export default function Chatbot() {
     handleSubmit,
     isLoading,
     setInput,
-  } = useChat({onResponse:()=>setShowQuestions(false)});
+  } = useChat({ onResponse: () => setShowQuestions(false) });
 
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const [showQuestions, setShowQuestions] = useState(true);
@@ -31,7 +31,6 @@ export default function Chatbot() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-
   const handleQuestionClick = (question: string) => {
     setInput(question); // Set the input value
     setShowQuestions(false);
@@ -44,14 +43,7 @@ export default function Chatbot() {
   };
 
   return (
-    <div className="flex flex-col w-full max-w-5xl h-screen lg:h-[95dvh] max-h-screen relative rounded-2xl bg-gray-500 bg-clip-padding backdrop-filter backdrop-blur-3xl bg-opacity-10 border  items-center justify-center">
-      <div className="my-6 px-10 flex items-center justify-center gap-4 self-start">
-        <h1 className="text-6xl text-gray-700 font-bold tracking-tight font-[family-name:var(--font-space-grotesk)]">
-          Blueprint AI
-        </h1>
-        <Dna size={50} color="#0077CC" />
-      </div>
-
+    <>
       {showQuestions && (
         <div className="flex items-center justify-center gap-4 self-start px-12 my-12 ">
           <BounceLoader size={60} color="#0077CC" />
@@ -145,6 +137,6 @@ export default function Chatbot() {
           </button>
         </form>
       </div>
-    </div>
+    </>
   );
 }
