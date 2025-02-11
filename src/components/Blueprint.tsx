@@ -86,7 +86,15 @@ const PersonalizedBlueprint = () => {
         {response && !showForm && (
           <div className="mt-4 p-4 bg-gray-50 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-20 border border-gray-100 rounded-lg">
             <ReactMarkdown
-              className="flex-col text-md font-normal break-words whitespace-pre-wrap"
+              className="prose prose-lg whitespace-normal max-w-none dark:prose-invert 
+              [&>h1]:text-2xl [&>h1]:font-bold [&>h1]:mb-4 [&>h1]:mt-6
+              [&>h2]:text-xl [&>h2]:font-semibold [&>h2]:mb-3 [&>h2]:mt-5
+              [&>h3]:text-lg [&>h3]:font-medium [&>h3]:mb-2 [&>h3]:mt-4
+              [&>p]:mb-4 [&>p]:leading-relaxed
+              [&>ul]:list-disc [&>ul]:ml-6 [&>ul]:mb-4 [&>ul>li]:mb-2
+              [&>ol]:list-decimal [&>ol]:ml-6 [&>ol]:mb-4 [&>ol>li]:mb-2
+              [&>blockquote]:border-l-4 [&>blockquote]:border-gray-300 [&>blockquote]:pl-4 [&>blockquote]:italic
+              [&>*:first-child]:mt-0"
               remarkPlugins={[remarkGfm]}
             >
               {response}
