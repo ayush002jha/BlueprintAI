@@ -66,7 +66,7 @@ function Products() {
       <div className="mt-4 flex flex-col gap-4">
         {randomProducts.map((product) => (
           <Link key={product.title} href={product.product_link}>
-            <div className=" p-4 rounded-lg shadow-md flex gap-2 items-center justify-between bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-0 border border-gray-100">
+            <div className=" p-4 rounded-lg shadow-md hover:bg-gray-100  flex gap-2 items-center justify-between bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-0 border border-gray-100">
               <Image
                 src={product.image_link}
                 alt={product.title}
