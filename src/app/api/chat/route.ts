@@ -35,16 +35,22 @@ export async function POST(req: Request) {
     includeMetadata: true,
   });
 
+
+  // console.log(searchResults)
   // 3. Construct context from results
   const context = searchResults.matches
-    .map(match => match.metadata?.text)
-    .join('\n\n');
+  .map(match => {
+    const source = match.metadata?.source || 'Unknown Source'; // Get source URL
+    const text = match.metadata?.text || 'No content available'; // Get text
+    return `Source: ${source}\nContent: ${text}`; // Combine source and text
+  })
+  .join('\n\n'); // Join all matches with double newlines
 
   console.log(context)
   // 4. Create augmented prompt
   const augmentedPrompt = `Use the following context to answer the question. 
   If you don't know the answer, say you don't know. Be specific and technical.
-  Give answer in short. With few points. Add Relevant Emojis.
+  Give answer in short. With few points. Add Relevant Emojis. Also Provide the Source Link with Emoji at end.
   
   Context:
   ${context}

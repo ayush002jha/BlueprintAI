@@ -17,7 +17,7 @@ export default function Chatbot() {
     handleSubmit,
     isLoading,
     setInput,
-  } = useChat({});
+  } = useChat({onResponse:()=>setShowQuestions(false)});
 
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const [showQuestions, setShowQuestions] = useState(true);
@@ -30,6 +30,7 @@ export default function Chatbot() {
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
 
   const handleQuestionClick = (question: string) => {
     setInput(question); // Set the input value
@@ -66,7 +67,7 @@ export default function Chatbot() {
           {questions.map((q, index) => (
             <button
               key={index}
-              className="flex items-center text-lg font-medium  justify-center p-6  rounded-xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-90 border border-gray-100 text-center shadow-lg w-full h-full"
+              className="flex items-center text-lg font-medium  justify-center p-6 hover:bg-gray-200 rounded-xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-90 border border-gray-100 text-center shadow-lg w-full h-full"
               type="button" // Changed to type="button"
               onClick={() => handleQuestionClick(q)} // Use new handler
             >
@@ -95,7 +96,7 @@ export default function Chatbot() {
               {m.role === "user" ? (
                 <>
                   <ReactMarkdown
-                    className="flex-col text-lg font-normal break-words whitespace-pre-wrap"
+                    className="flex-col text-lg font-normal break-words whitespace-pre-wrap "
                     remarkPlugins={[remarkGfm]}
                   >
                     {m.content}

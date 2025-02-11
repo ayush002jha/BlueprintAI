@@ -20,39 +20,18 @@ const links = [
   {
     title: "Home",
     href: "/",
-    useCase: "🏠 Where can I find an overview of all features?",
     icon: <HomeIcon className="h-full w-full" />,
   },
   {
-    title: "Q&A",
-    href: "9d25f43d-3644-490e-bb1d-8a6bb2a35d08",
-    useCase: "❓ How can I get instant answers to my questions?",
+    title: "Personalized BluePrint",
+    href: "/report",
     icon: <HelpCircleIcon />,
   },
   {
-    title: "YTVideoSummarizer",
-    href: "ec62ea72-cb10-430e-8b49-64b852d08812",
-    useCase: "🎥 Can you summarize this YouTube video for me?",
+    title: "Recipie Genie",
+    href: "/recipie",
     icon: <VideoIcon />,
-  },
-  {
-    title: "ResearchAssist",
-    href: "7119bf6f-b8e1-4f1a-8b85-711ff8496ed9",
-    useCase: "🔬 How can AI help with my research paper?",
-    icon: <BookOpenIcon />,
-  },
-  {
-    title: "DigiNotes",
-    href: "fe7ddfe6-79b0-486d-817f-f68937facf05",
-    useCase: "📝 Can you convert my handwritten notes to digital format?",
-    icon: <PenToolIcon />,
-  },
-  {
-    title: "Doubtnut",
-    href: "38ff4010-21b2-4f81-8da2-fcd9b54aee05",
-    useCase: "📚 How can I get step-by-step solutions for my homework?",
-    icon: <GraduationCapIcon />,
-  },
+  }
 ];
 
 const renderIcon = (selected: string, title: string, icon: React.ReactNode) => (
@@ -94,7 +73,7 @@ const FloatingDockDesktop = ({
       onMouseMove={(e: { pageY: number }) => mouseY.set(e.pageY)}
       onMouseLeave={() => mouseY.set(Infinity)}
       className={cn(
-        "mx-auto hidden xl:flex flex-col w-20 py-2 gap-4 items-center justify-center rounded-2xl bg-gray-500  bg-clip-padding backdrop-filter backdrop-blur-3xl  bg-opacity-10 border border-gray-100 fixed left-36 z-10 top-1/2 -translate-y-1/2",
+        "mx-auto hidden xl:flex flex-col w-20 py-6 gap-8 items-center justify-center rounded-2xl bg-gray-500  bg-clip-padding backdrop-filter backdrop-blur-3xl  bg-opacity-10 border border-gray-100 fixed left-36 z-10 top-1/2 -translate-y-1/2",
         className
       )}
     >
