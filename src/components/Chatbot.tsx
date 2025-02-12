@@ -3,11 +3,15 @@
 import { cn } from "@/lib/utils";
 import { useChat } from "ai/react";
 import { ArrowUp, UserRound } from "lucide-react";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import HashLoader from "react-spinners/HashLoader";
 import BounceLoader from "react-spinners/BounceLoader";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import OpenGraphPreview from "./LinkPreview";
+interface MarkdownRendererProps {
+  content: string;
+}
 
 export default function Chatbot() {
   const {
@@ -41,6 +45,20 @@ export default function Chatbot() {
       if (form) form.requestSubmit();
     }, 50);
   };
+
+  // Inside the component, memoize plugins and components
+  const remarkPlugins = useMemo(() => [remarkGfm], []);
+  const markdownComponents = useMemo(
+    () => ({
+      a: ({ href, children }) => {
+        if (href) {
+          return <OpenGraphPreview url={href} />;
+        }
+        return <>{children}</>;
+      },
+    }),
+    []
+  );
 
   return (
     <>
@@ -97,7 +115,8 @@ export default function Chatbot() {
                     [&>ol]:list-decimal [&>ol]:ml-6 [&>ol]:mb-4 [&>ol>li]:mb-2
                     [&>blockquote]:border-l-4 [&>blockquote]:border-gray-300 [&>blockquote]:pl-4 [&>blockquote]:italic
                     [&>*:first-child]:mt-0"
-                    remarkPlugins={[remarkGfm]}
+                    remarkPlugins={remarkPlugins}
+                    components={markdownComponents}
                   >
                     {m.content}
                   </ReactMarkdown>
@@ -120,7 +139,8 @@ export default function Chatbot() {
                     [&>ol]:list-decimal [&>ol]:ml-6 [&>ol]:mb-4 [&>ol>li]:mb-2
                     [&>blockquote]:border-l-4 [&>blockquote]:border-gray-300 [&>blockquote]:pl-4 [&>blockquote]:italic
                     [&>*:first-child]:mt-0"
-                    remarkPlugins={[remarkGfm]}
+                    remarkPlugins={remarkPlugins}
+                    components={markdownComponents}
                   >
                     {m.content}
                   </ReactMarkdown>
