@@ -9,6 +9,8 @@ import BounceLoader from "react-spinners/BounceLoader";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import OpenGraphPreview from "./LinkPreview";
+import { Components } from "react-markdown";
+
 interface MarkdownRendererProps {
   content: string;
 }
@@ -48,9 +50,9 @@ export default function Chatbot() {
 
   // Inside the component, memoize plugins and components
   const remarkPlugins = useMemo(() => [remarkGfm], []);
-  const markdownComponents = useMemo(
+  const markdownComponents = useMemo<Components>(
     () => ({
-      a: ({ href, children }) => {
+      a: ({ href, children, ...props }) => {
         if (href) {
           return <OpenGraphPreview url={href} />;
         }
