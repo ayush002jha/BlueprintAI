@@ -1,14 +1,12 @@
 "use client";
 
 import { Dispatch, SetStateAction, useState } from "react";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
-import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 // import { generateRecipe } from "./RecipieAction";
-
+import { convertMarkdownToPdf } from "@/lib/utils";
 import {
   Select,
   SelectContent,
@@ -74,12 +72,7 @@ export default function Recipe() {
     }
   };
 
-  function convertMarkdownToPdf(
-    response: any,
-    setDownloading: Dispatch<SetStateAction<boolean>>
-  ): void {
-    throw new Error("Function not implemented.");
-  }
+
 
   return (
     <div className="flex flex-col h-[80dvh] w-[95%] bg-gray-50 rounded-xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-20 border border-gray-100">

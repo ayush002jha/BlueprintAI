@@ -39,8 +39,8 @@ const MotivationalQuotes = () => {
         <p className="text-gray-500 animate-pulse">Loading...</p>
       ) : (
         <>
-          <p className="text-md text-gray-800 italic">"{quote}"</p>
-          {author && <p className="text-sm text-gray-600 mt-2">- {author}</p>}
+          <p className="text-sm text-gray-800 italic">"{quote}"</p>
+          {author && <p className="text-xs text-gray-600 mt-2">- {author}</p>}
         </>
       )}
 
