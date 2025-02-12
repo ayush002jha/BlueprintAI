@@ -57,9 +57,9 @@ const PersonalizedBlueprint = () => {
   return (
     <div className="flex flex-col h-[84dvh] w-[95%] bg-gray-50 rounded-xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-20 border border-gray-100">
       <div className="sticky top-0 z-10 bg-gray-100 bg-opacity-30 backdrop-blur-sm bg-clip-padding backdrop-filter  border-b border-gray-100 p-9 pb-4">
-        <h2 className="text-3xl text-gray-700 font-semibold mb-4">
+        {/* <h2 className="text-3xl text-gray-700 font-semibold mb-4">
           Personalized Blueprint Generator
-        </h2>
+        </h2> */}
         {response && !showForm && (
           <div className="flex justify-between mb-4">
             <button

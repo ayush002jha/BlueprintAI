@@ -49,7 +49,8 @@ export async function POST(req: Request) {
   console.log(context)
   // 4. Create augmented prompt
   const augmentedPrompt = `Use the following context to answer the question. 
-  If you don't know the answer, say you don't know. Be specific and technical.
+  If you got no context just say "Please ask relevant questions🤗". 
+  Be specific and technical.
   Give answer in short. With few points. Add Relevant Emojis. Also Provide the Source Link.
   
   Context:
