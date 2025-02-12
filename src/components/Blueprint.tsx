@@ -8,6 +8,8 @@ import { convertMarkdownToPdf } from "@/lib/utils";
 
 const PersonalizedBlueprint = () => {
   const [age, setAge] = useState<number | "">("");
+  const [gender, setGender] = useState<string>(""); // New state for gender
+  const [weight, setWeight] = useState<number | "">("");  // New state for weight
   const [diet, setDiet] = useState<string>("Omnivore");
   const [sleep, setSleep] = useState<number | "">("");
   const [goals, setGoals] = useState<string>("");
@@ -34,7 +36,7 @@ const PersonalizedBlueprint = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ age, diet, sleep, goals }),
+        body: JSON.stringify({ age, gender, weight, diet, sleep, goals }), // Added new fields
       });
 
       const result = await res.json();
@@ -109,7 +111,7 @@ const PersonalizedBlueprint = () => {
           </div>
         )}
         {showForm && (
-          <form onSubmit={handleSubmit} className="space-y-6 mt-4">
+          <form onSubmit={handleSubmit} className="space-y-4 mt-4">
             <div>
               <label
                 htmlFor="age"
@@ -123,6 +125,44 @@ const PersonalizedBlueprint = () => {
                 value={age}
                 onChange={(e) =>
                   setAge(e.target.value ? parseInt(e.target.value) : "")
+                }
+                className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-600"
+                required
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="gender"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
+                Gender
+              </label>
+              <select
+                id="gender"
+                value={gender}
+                onChange={(e) => setGender(e.target.value)}
+                className="w-full border bg-gray-100 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-0 border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-600"
+                required
+              >
+                <option value="">Select gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="prefer-not-to-say">Prefer not to say</option>
+              </select>
+            </div>
+            <div>
+              <label
+                htmlFor="weight"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
+                Weight (kg)
+              </label>
+              <input
+                type="number"
+                id="weight"
+                value={weight}
+                onChange={(e) =>
+                  setWeight(e.target.value ? parseInt(e.target.value) : "")
                 }
                 className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-600"
                 required
