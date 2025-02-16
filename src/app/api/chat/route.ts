@@ -51,7 +51,7 @@ export async function POST(req: Request) {
   const augmentedPrompt = `Use the following context to answer the question. 
   If you got no context just say "Please ask relevant questions🤗". 
   Be specific and technical.
-  Give answer in short. With few points. Add Relevant Emojis. Also Provide the Source Link.
+  Give answer in short. With few points. Add Relevant Emojis. Also Provide the Source Link. Do not quote price.
   
   Context:
   ${context}
