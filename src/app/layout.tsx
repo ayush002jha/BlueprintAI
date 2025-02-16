@@ -14,7 +14,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Longevity AI",
+  title: "Blueprint AI",
   description: "Get you personalized longevity plan and blueprint",
 };
 
