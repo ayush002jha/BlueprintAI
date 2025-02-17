@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Blueprint AI - Longevity Companion 🤖💙
 
-## Getting Started
+[![Demo Video](https://img.youtube.com/vi/34BXeCM75dU/maxresdefault.jpg)](https://youtu.be/34BXeCM75dU)
 
-First, run the development server:
+AI-powered Q&A and personalization engine implementing Bryan Johnson's "Don't Die" protocol. Built with Next.js, Pinecone, and LangChain.
+
+## ✨ Features
+- **AI Q&A** - Answers questions about Bryan Johnson's Blueprint
+- **Personalized Plans** - Generates custom health blueprints (PDF)
+- **Recipe Engine** - Creates nutrient-dense meals
+- **Open-Source** - Full RAG pipeline implementation
+
+## 🚀 Installation
+
+### **Frontend**
 
 ```bash
+# Clone repo
+git clone https://github.com/ayush002jha/BlueprintAI.git
+cd BlueprintAI
+
+# Install dependencies
+npm install
+
+# Start dev server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### **Backend**
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Set Up Environment, Add your API keys to `.env`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Create a crawl_results.txt file with URLs to scrape:
 
-## Learn More
+```text
+https://blueprint.bryanjohnson.com
+https://blueprint.bryanjohnson.com/pages/biomarkers
+https://blueprint.bryanjohnson.com/blogs/news
+```
+- Run the Script
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+python ragDb.py
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 🛠️ **Customization**
+- **Chunk Size**: Adjust `chunk_size` and `chunk_overlap` in `text_splitter`.  
+- **Index Name**: Change `INDEX_NAME` to use a different Pinecone index.  
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 🗂️ **Script Structure**
+```python
+# ragDb.py
+├── extract_urls_from_file()  # Reads URLs from text file
+├── scrape_page()             # Cleans HTML content
+├── process_urls()            # Chunks text & uploads to Pinecone
+└── Main Execution            # Runs the pipeline
+```
 
-## Deploy on Vercel
+### **What Happens?**
+1. **Scraping**: Extracts clean text from URLs using BeautifulSoup.  
+2. **Chunking**: Splits text into 1000-character chunks with 200-character overlap.  
+3. **Embedding**: Generates OpenAI embeddings (`text-embedding-3-small`).  
+4. **Upload**: Stores chunks + metadata in Pinecone index `blueprintai`.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
