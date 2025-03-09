@@ -5,7 +5,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { Textarea } from "@/components/ui/textarea";
-// import { generateRecipe } from "./RecipieAction";
 import { convertMarkdownToPdf } from "@/lib/utils";
 import {
   Select,
@@ -17,7 +16,6 @@ import {
 import BarLoader from "react-spinners/BarLoader";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-// import { generateRecipe } from "./actions"
 
 export default function Recipe() {
   const [isLoading, setIsLoading] = useState(false);
@@ -30,6 +28,7 @@ export default function Recipe() {
     setShowForm(true);
     setRecipe(null);
   };
+  
   async function generateRecipe(preferences: any) {
     try {
       const response = await fetch(`/api/generate-recipe`, {
@@ -73,13 +72,13 @@ export default function Recipe() {
   };
 
   return (
-    <div className="flex flex-col md:h-[80dvh] w-[95%] bg-gray-50 rounded-xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-20 border border-gray-100">
-      <div className="sticky top-0 z-10 bg-gray-100 bg-opacity-30 backdrop-blur-sm bg-clip-padding backdrop-filter  border-b border-gray-100 p-4 ">
+    <div className="flex flex-col h-[80vh] md:h-[80dvh] w-[95%] bg-gray-50 rounded-xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-20 border border-gray-100">
+      <div className="sticky top-0 z-10 bg-gray-100 bg-opacity-30 backdrop-blur-sm bg-clip-padding backdrop-filter border-b border-gray-100 p-4">
         {recipe && !showForm && (
-          <div className="flex justify-between mb-4">
+          <div className="flex justify-between gap-4 mb-2">
             <button
               onClick={handleRegenerate}
-              className="px-8 py-0.5 border-2  border-black dark:border-white uppercase bg-white text-black transition duration-200 text-sm shadow-[1px_1px_rgba(0,0,0),2px_2px_rgba(0,0,0),3px_3px_rgba(0,0,0),4px_4px_rgba(0,0,0),5px_5px_0px_0px_rgba(0,0,0)] dark:shadow-[1px_1px_rgba(255,255,255),2px_2px_rgba(255,255,255),3px_3px_rgba(255,255,255),4px_4px_rgba(255,255,255),5px_5px_0px_0px_rgba(255,255,255)]"
+              className="px-8 py-0.5 border-2 border-black dark:border-white uppercase bg-white text-black transition duration-200 text-sm shadow-[1px_1px_rgba(0,0,0),2px_2px_rgba(0,0,0),3px_3px_rgba(0,0,0),4px_4px_rgba(0,0,0),5px_5px_0px_0px_rgba(0,0,0)] dark:shadow-[1px_1px_rgba(255,255,255),2px_2px_rgba(255,255,255),3px_3px_rgba(255,255,255),4px_4px_rgba(255,255,255),5px_5px_0px_0px_rgba(255,255,255)]"
             >
               Regenerate Recipe
             </button>
@@ -89,7 +88,7 @@ export default function Recipe() {
               disabled={downloading}
             >
               {downloading ? (
-                <BarLoader width={100} color="#0077CC" />
+                <BarLoader width={80} height={4} color="#0077CC" />
               ) : (
                 "Download Recipe"
               )}
@@ -98,7 +97,7 @@ export default function Recipe() {
         )}
       </div>
       <div
-        className="flex-1 overflow-y-auto px-4 md:px-9 pb-9 [&::-webkit-scrollbar]:w-2 
+        className="flex-1 overflow-y-auto px-4 md:px-9 pb-6 md:pb-9 [&::-webkit-scrollbar]:w-2 
                   [&::-webkit-scrollbar-track]:bg-transparent
                   [&::-webkit-scrollbar-thumb]:bg-zinc-300 
                   [&::-webkit-scrollbar-thumb]:rounded-full
@@ -109,7 +108,7 @@ export default function Recipe() {
         {recipe && !showForm && (
           <div className="mt-4 p-4 bg-gray-50 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-20 border border-gray-100 rounded-lg">
             <ReactMarkdown
-              className="prose prose-sm md:prose-lg whitespace-normal max-w-none dark:prose-invert 
+              className="prose prose-sm md:prose-base lg:prose-lg whitespace-normal max-w-none dark:prose-invert 
                     [&>h1]:text-xl md:[&>h1]:text-2xl [&>h1]:font-bold [&>h1]:mb-4 [&>h1]:mt-6
                     [&>h2]:text-lg md:[&>h2]:text-xl [&>h2]:font-semibold [&>h2]:mb-3 [&>h2]:mt-5
                     [&>h3]:text-base md:[&>h3]:text-lg [&>h3]:font-medium [&>h3]:mb-2 [&>h3]:mt-4
@@ -125,7 +124,7 @@ export default function Recipe() {
           </div>
         )}
         {showForm && (
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4 py-4">
             <div>
               <Label htmlFor="dietaryRestrictions">Dietary Restrictions</Label>
               <Input
@@ -151,7 +150,9 @@ export default function Recipe() {
               </Select>
             </div>
             <div>
-              <Label htmlFor="cookingTime">Maximum Cooking Time (minutes)</Label>
+              <Label htmlFor="cookingTime">
+                Maximum Cooking Time (minutes)
+              </Label>
               <Input
                 type="number"
                 id="cookingTime"
@@ -163,7 +164,7 @@ export default function Recipe() {
             </div>
             <div>
               <Label>Calorie Range</Label>
-              <div className="flex items-center space-x-2">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-2">
                 <Input
                   type="number"
                   id="minCalories"
@@ -172,7 +173,7 @@ export default function Recipe() {
                   min="0"
                   className="w-full bg-white"
                 />
-                <span>to</span>
+                <span className="hidden sm:inline">to</span>
                 <Input
                   type="number"
                   id="maxCalories"
@@ -226,13 +227,23 @@ export default function Recipe() {
             </div>
             <button
               type="submit"
-              className="px-12 py-2 w-full border-2 border-black dark:border-white uppercase bg-white text-black transition duration-200 text-sm shadow-[1px_1px_rgba(0,0,0),2px_2px_rgba(0,0,0),3px_3px_rgba(0,0,0),4px_4px_rgba(0,0,0),5px_5px_0px_0px_rgba(0,0,0)] dark:shadow-[1px_1px_rgba(255,255,255),2px_2px_rgba(255,255,255),3px_3px_rgba(255,255,255),4px_4px_rgba(255,255,255),5px_5px_0px_0px_rgba(255,255,255)]"
+              className="px-6 sm:px-12 py-2 w-full border-2 flex justify-center items-center border-black dark:border-white uppercase bg-white text-black transition duration-200 text-sm shadow-[1px_1px_rgba(0,0,0),2px_2px_rgba(0,0,0),3px_3px_rgba(0,0,0),4px_4px_rgba(0,0,0),5px_5px_0px_0px_rgba(0,0,0)] dark:shadow-[1px_1px_rgba(255,255,255),2px_2px_rgba(255,255,255),3px_3px_rgba(255,255,255),4px_4px_rgba(255,255,255),5px_5px_0px_0px_rgba(255,255,255)]"
               disabled={isLoading}
             >
               {isLoading ? (
-                <BarLoader width={500} color="#0077CC" />
+                <>
+                  <div className="block sm:hidden">
+                    <BarLoader width={150} color="#0077CC" />
+                  </div>
+                  <div className="hidden sm:block md:hidden">
+                    <BarLoader width={260} color="#0077CC" />
+                  </div>
+                  <div className="hidden md:block">
+                    <BarLoader width={500} color="#0077CC" />
+                  </div>
+                </>
               ) : (
-                "Generate Blueprint"
+                "Generate Recipe"
               )}
             </button>
           </form>

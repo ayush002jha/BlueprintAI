@@ -8,8 +8,8 @@ import { convertMarkdownToPdf } from "@/lib/utils";
 
 const PersonalizedBlueprint = () => {
   const [age, setAge] = useState<number | "">("");
-  const [gender, setGender] = useState<string>(""); // New state for gender
-  const [weight, setWeight] = useState<number | "">("");  // New state for weight
+  const [gender, setGender] = useState<string>("");
+  const [weight, setWeight] = useState<number | "">("");
   const [diet, setDiet] = useState<string>("Omnivore");
   const [sleep, setSleep] = useState<number | "">("");
   const [goals, setGoals] = useState<string>("");
@@ -36,7 +36,7 @@ const PersonalizedBlueprint = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ age, gender, weight, diet, sleep, goals }), // Added new fields
+        body: JSON.stringify({ age, gender, weight, diet, sleep, goals }),
       });
 
       const result = await res.json();
@@ -55,16 +55,13 @@ const PersonalizedBlueprint = () => {
   };
 
   return (
-    <div className="flex flex-col md:h-[80dvh] w-[95%] bg-gray-50 rounded-xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-20 border border-gray-100">
-      <div className="sticky top-0 z-10 bg-gray-100 bg-opacity-30 backdrop-blur-sm bg-clip-padding backdrop-filter  border-b border-gray-100 p-9 pb-4">
-        {/* <h2 className="text-3xl text-gray-700 font-semibold mb-4">
-          Personalized Blueprint Generator
-        </h2> */}
+    <div className="flex flex-col h-[80vh] md:h-[80dvh] w-[95%] bg-gray-50 rounded-xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-20 border border-gray-100">
+      <div className="sticky top-0 z-10 bg-gray-100 bg-opacity-30 backdrop-blur-sm bg-clip-padding backdrop-filter border-b border-gray-100 p-6 md:p-9 pb-4">
         {response && !showForm && (
-          <div className="flex justify-between mb-4">
+          <div className="flex justify-between gap-4 mb-4">
             <button
               onClick={handleRegenerate}
-              className="px-8 py-0.5 border-2  border-black dark:border-white uppercase bg-white text-black transition duration-200 text-sm shadow-[1px_1px_rgba(0,0,0),2px_2px_rgba(0,0,0),3px_3px_rgba(0,0,0),4px_4px_rgba(0,0,0),5px_5px_0px_0px_rgba(0,0,0)] dark:shadow-[1px_1px_rgba(255,255,255),2px_2px_rgba(255,255,255),3px_3px_rgba(255,255,255),4px_4px_rgba(255,255,255),5px_5px_0px_0px_rgba(255,255,255)]"
+              className="px-8 py-0.5 border-2 border-black dark:border-white uppercase bg-white text-black transition duration-200 text-sm shadow-[1px_1px_rgba(0,0,0),2px_2px_rgba(0,0,0),3px_3px_rgba(0,0,0),4px_4px_rgba(0,0,0),5px_5px_0px_0px_rgba(0,0,0)] dark:shadow-[1px_1px_rgba(255,255,255),2px_2px_rgba(255,255,255),3px_3px_rgba(255,255,255),4px_4px_rgba(255,255,255),5px_5px_0px_0px_rgba(255,255,255)]"
             >
               Regenerate Blueprint
             </button>
@@ -74,7 +71,7 @@ const PersonalizedBlueprint = () => {
               disabled={downloading}
             >
               {downloading ? (
-                <BarLoader width={100} color="#0077CC" />
+                <BarLoader width={80} height={4} color="#0077CC" />
               ) : (
                 "Download Blueprint"
               )}
@@ -84,7 +81,7 @@ const PersonalizedBlueprint = () => {
       </div>
 
       <div
-        className="flex-1 overflow-y-auto px-9 pb-9 [&::-webkit-scrollbar]:w-2 
+        className="flex-1 overflow-y-auto px-4 md:px-9 pb-6 md:pb-9 [&::-webkit-scrollbar]:w-2 
             [&::-webkit-scrollbar-track]:bg-transparent
             [&::-webkit-scrollbar-thumb]:bg-zinc-300 
             [&::-webkit-scrollbar-thumb]:rounded-full
@@ -95,10 +92,10 @@ const PersonalizedBlueprint = () => {
         {response && !showForm && (
           <div className="mt-4 p-4 bg-gray-50 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-20 border border-gray-100 rounded-lg">
             <ReactMarkdown
-              className="prose prose-lg md:prose-xl whitespace-normal max-w-none dark:prose-invert 
-              [&>h1]:text-2xl md:[&>h1]:text-3xl [&>h1]:font-bold [&>h1]:mb-4 [&>h1]:mt-6
-              [&>h2]:text-xl md:[&>h2]:text-2xl [&>h2]:font-semibold [&>h2]:mb-3 [&>h2]:mt-5
-              [&>h3]:text-lg md:[&>h3]:text-xl [&>h3]:font-medium [&>h3]:mb-2 [&>h3]:mt-4
+              className="prose prose-base md:prose-lg lg:prose-xl whitespace-normal max-w-none dark:prose-invert 
+              [&>h1]:text-xl md:[&>h1]:text-2xl lg:[&>h1]:text-3xl [&>h1]:font-bold [&>h1]:mb-4 [&>h1]:mt-6
+              [&>h2]:text-lg md:[&>h2]:text-xl lg:[&>h2]:text-2xl [&>h2]:font-semibold [&>h2]:mb-3 [&>h2]:mt-5
+              [&>h3]:text-base md:[&>h3]:text-lg lg:[&>h3]:text-xl [&>h3]:font-medium [&>h3]:mb-2 [&>h3]:mt-4
               [&>p]:mb-4 [&>p]:leading-relaxed
               [&>ul]:list-disc [&>ul]:ml-6 [&>ul]:mb-4 [&>ul>li]:mb-2
               [&>ol]:list-decimal [&>ol]:ml-6 [&>ol]:mb-4 [&>ol>li]:mb-2
@@ -223,11 +220,21 @@ const PersonalizedBlueprint = () => {
             </div>
             <button
               type="submit"
-              className="px-12 py-2 w-full border-2 border-black dark:border-white uppercase bg-white text-black transition duration-200 text-sm shadow-[1px_1px_rgba(0,0,0),2px_2px_rgba(0,0,0),3px_3px_rgba(0,0,0),4px_4px_rgba(0,0,0),5px_5px_0px_0px_rgba(0,0,0)] dark:shadow-[1px_1px_rgba(255,255,255),2px_2px_rgba(255,255,255),3px_3px_rgba(255,255,255),4px_4px_rgba(255,255,255),5px_5px_0px_0px_rgba(255,255,255)]"
+              className="px-8 md:px-12 py-2 w-full border-2 border-black flex justify-center items-center dark:border-white uppercase bg-white text-black transition duration-200 text-sm shadow-[1px_1px_rgba(0,0,0),2px_2px_rgba(0,0,0),3px_3px_rgba(0,0,0),4px_4px_rgba(0,0,0),5px_5px_0px_0px_rgba(0,0,0)] dark:shadow-[1px_1px_rgba(255,255,255),2px_2px_rgba(255,255,255),3px_3px_rgba(255,255,255),4px_4px_rgba(255,255,255),5px_5px_0px_0px_rgba(255,255,255)]"
               disabled={loading}
             >
               {loading ? (
-                <BarLoader width={500} color="#0077CC" />
+                <>
+                  <div className="block sm:hidden">
+                    <BarLoader width={150} color="#0077CC" />
+                  </div>
+                  <div className="hidden sm:block md:hidden">
+                    <BarLoader width={260} color="#0077CC" />
+                  </div>
+                  <div className="hidden md:block">
+                    <BarLoader width={500} color="#0077CC" />
+                  </div>
+                </>
               ) : (
                 "Generate Blueprint"
               )}
