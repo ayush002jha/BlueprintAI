@@ -8,7 +8,7 @@ import HealthCard from "./HealthCard";
 function Activity() {
   return (
     <div
-      className=" sm:hidden xl:flex flex-col h-[95dvh]  w-full max-w-md max-h-screen rounded-2xl bg-gray-500  bg-clip-padding backdrop-filter backdrop-blur-3xl  bg-opacity-10 border flex-1 overflow-y-auto  [&::-webkit-scrollbar]:w-2 
+      className="flex flex-col h-[95dvh]  w-full  max-h-screen rounded-2xl bg-gray-500  bg-clip-padding backdrop-filter backdrop-blur-3xl  bg-opacity-10 border flex-1 overflow-y-auto  [&::-webkit-scrollbar]:w-2 
                   [&::-webkit-scrollbar-track]:bg-transparent
                   [&::-webkit-scrollbar-thumb]:bg-zinc-300 
                   [&::-webkit-scrollbar-thumb]:rounded-full

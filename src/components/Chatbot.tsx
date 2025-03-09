@@ -65,23 +65,23 @@ export default function Chatbot() {
   return (
     <>
       {showQuestions && (
-        <div className="flex items-center justify-center gap-4 self-start px-12 my-12 ">
+        <div className="flex items-center justify-center gap-4 self-start px-4 md:px-12 my-6 md:my-12">
           <BounceLoader size={60} color="#0077CC" />
           <div>
-            <p className="text-lg font-light">Hi, You!</p>
-            <p className="text-xl font-semibold">How can I help you?</p>
+            <p className="text-base md:text-lg font-light">Hi, You!</p>
+            <p className="text-lg md:text-xl font-semibold">How can I help you?</p>
           </div>
         </div>
       )}
 
       {showQuestions ? (
-        <div className="grid grid-cols-2 gap-4 w-3/4 h-2/4 mb-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full md:w-3/4 h-2/4 mb-auto px-4 md:px-0">
           {questions.map((q, index) => (
             <button
               key={index}
-              className="flex items-center text-lg font-medium  justify-center p-6 hover:bg-gray-200 rounded-xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-90 border border-gray-100 text-center shadow-lg w-full h-full"
-              type="button" // Changed to type="button"
-              onClick={() => handleQuestionClick(q)} // Use new handler
+              className="flex items-center text-sm md:text-lg font-medium justify-center p-4 md:p-6 hover:bg-gray-200 rounded-xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-90 border border-gray-100 text-center shadow-lg w-full h-full"
+              type="button"
+              onClick={() => handleQuestionClick(q)}
             >
               {q}
             </button>
@@ -89,7 +89,7 @@ export default function Chatbot() {
         </div>
       ) : (
         <div
-          className="flex flex-col items-end flex-1 overflow-y-auto p-10 pb-20 w-full h-full [&::-webkit-scrollbar]:w-2 
+          className="flex flex-col items-end flex-1 overflow-y-auto p-4 md:p-10 pb-20 w-full h-full [&::-webkit-scrollbar]:w-2 
             [&::-webkit-scrollbar-track]:bg-transparent
             [&::-webkit-scrollbar-thumb]:bg-zinc-300 
             [&::-webkit-scrollbar-thumb]:rounded-full
@@ -101,17 +101,17 @@ export default function Chatbot() {
             <div
               key={m.id}
               className={cn(
-                "whitespace-pre  mb-4 flex  gap-6  p-4 bg-gray-100 rounded-xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-90 border border-gray-100",
+                "whitespace-pre mb-4 flex gap-4 md:gap-6 p-4 bg-gray-100 rounded-xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-90 border border-gray-100",
                 m.role == "assistant" && "self-start"
               )}
             >
               {m.role === "user" ? (
                 <>
                   <ReactMarkdown
-                    className="prose prose-lg whitespace-normal dark:prose-invert 
-                    [&>h1]:text-2xl [&>h1]:font-bold [&>h1]:mb-4 [&>h1]:mt-6
-                    [&>h2]:text-xl [&>h2]:font-semibold [&>h2]:mb-3 [&>h2]:mt-5
-                    [&>h3]:text-lg [&>h3]:font-medium [&>h3]:mb-2 [&>h3]:mt-4
+                    className="prose prose-sm md:prose-lg whitespace-normal dark:prose-invert 
+                    [&>h1]:text-xl md:[&>h1]:text-2xl [&>h1]:font-bold [&>h1]:mb-4 [&>h1]:mt-6
+                    [&>h2]:text-lg md:[&>h2]:text-xl [&>h2]:font-semibold [&>h2]:mb-3 [&>h2]:mt-5
+                    [&>h3]:text-base md:[&>h3]:text-lg [&>h3]:font-medium [&>h3]:mb-2 [&>h3]:mt-4
                     [&>p]:mb-4 [&>p]:leading-relaxed
                     [&>ul]:list-disc [&>ul]:ml-6 [&>ul]:mb-4 [&>ul>li]:mb-2
                     [&>ol]:list-decimal [&>ol]:ml-6 [&>ol]:mb-4 [&>ol>li]:mb-2
@@ -132,10 +132,10 @@ export default function Chatbot() {
                     className="shrink-0"
                   />
                   <ReactMarkdown
-                    className="prose prose-lg whitespace-normal  dark:prose-invert 
-                    [&>h1]:text-2xl [&>h1]:font-bold [&>h1]:mb-4 [&>h1]:mt-6
-                    [&>h2]:text-xl [&>h2]:font-semibold [&>h2]:mb-3 [&>h2]:mt-5
-                    [&>h3]:text-lg [&>h3]:font-medium [&>h3]:mb-2 [&>h3]:mt-4
+                    className="prose prose-sm md:prose-lg whitespace-normal dark:prose-invert 
+                    [&>h1]:text-xl md:[&>h1]:text-2xl [&>h1]:font-bold [&>h1]:mb-4 [&>h1]:mt-6
+                    [&>h2]:text-lg md:[&>h2]:text-xl [&>h2]:font-semibold [&>h2]:mb-3 [&>h2]:mt-5
+                    [&>h3]:text-base md:[&>h3]:text-lg [&>h3]:font-medium [&>h3]:mb-2 [&>h3]:mt-4
                     [&>p]:mb-4 [&>p]:leading-relaxed
                     [&>ul]:list-disc [&>ul]:ml-6 [&>ul]:mb-4 [&>ul>li]:mb-2
                     [&>ol]:list-decimal [&>ol]:ml-6 [&>ol]:mb-4 [&>ol>li]:mb-2
@@ -154,23 +154,23 @@ export default function Chatbot() {
         </div>
       )}
 
-      <div className="absolute bottom-0 left-0 right-0 px-10 pb-4 ">
+      <div className="absolute bottom-0 left-0 right-0 px-4 md:px-10 pb-4">
         <form
           onSubmit={handleSubmit}
           className="flex flex-row rounded-full shadow-xl bg-gray-100 bg-clip-padding backdrop-filter backdrop-blur-3xl bg-opacity-70 border border-gray-200"
         >
           <input
-            className="w-full h-12 p-2 px-4 rounded-full shadow-xl outline-none"
+            className="w-full h-10 md:h-12 p-2 px-4 rounded-full shadow-xl outline-none"
             value={input}
             placeholder="Ask me anything ..."
             onChange={handleInputChange}
             disabled={isLoading}
           />
-          <button type="submit" className="w-12 ">
+          <button type="submit" className="w-10 md:w-12">
             {isLoading ? (
-              <HashLoader size={28} color="#0077CC" className="mx-auto " />
+              <HashLoader size={28} color="#0077CC" className="mx-auto" />
             ) : (
-              <ArrowUp className="text-gray-500 mx-auto " />
+              <ArrowUp className="text-gray-500 mx-auto" />
             )}
           </button>
         </form>
