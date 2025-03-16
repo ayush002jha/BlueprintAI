@@ -10,6 +10,8 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import OpenGraphPreview from "./LinkPreview";
 import { Components } from "react-markdown";
+import Image from "next/image";
+import { useTab } from "@/providers/tabs-provider";
 
 interface MarkdownRendererProps {
   content: string;
@@ -33,6 +35,9 @@ export default function Chatbot() {
     "📊 What biomarkers does Blueprint track and why?",
     "💸 What supplements to take as a beginner?",
   ];
+
+  const { selectedTab, updateSelectedTab } = useTab();
+
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
@@ -69,23 +74,66 @@ export default function Chatbot() {
           <BounceLoader size={60} color="#0077CC" />
           <div>
             <p className="text-base md:text-lg font-light">Hi, You!</p>
-            <p className="text-lg md:text-xl font-semibold">How can I help you?</p>
+            <p className="text-lg md:text-xl font-semibold">
+              How can I help you?
+            </p>
           </div>
         </div>
       )}
 
       {showQuestions ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full md:w-3/4 h-2/4 mb-auto px-4 md:px-0">
-          {questions.map((q, index) => (
-            <button
-              key={index}
-              className="flex items-center text-sm md:text-lg font-medium justify-center p-4 md:p-6 hover:bg-gray-200 rounded-xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-90 border border-gray-100 text-center shadow-lg w-full h-full"
-              type="button"
-              onClick={() => handleQuestionClick(q)}
-            >
-              {q}
-            </button>
-          ))}
+        <div className="flex flex-col items-center justify-between w-full h-full p-2">
+          {/* Questions Grid - Responsive layout that goes from 1 column on mobile to 2 columns on larger screens */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full md:w-3/4 h-2/4 px-4 md:px-0 mb-6">
+            {questions.map((q, index) => (
+              <button
+                key={index}
+                className="flex items-center text-sm md:text-lg font-medium justify-center p-4 md:p-6 hover:bg-gray-200 rounded-xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-90 border border-gray-100 text-center shadow-lg w-full h-full"
+                type="button"
+                onClick={() => handleQuestionClick(q)}
+              >
+                {q}
+              </button>
+            ))}
+          </div>
+
+          {/* GIF-based Divs - Changes from column on mobile to row on larger screens */}
+          <div className="flex flex-col md:flex-row w-full md:w-3/4 items-center justify-center mb-10 md:mb-24 gap-4 md:gap-6 p-6 ">
+            {/* First GIF div with retro font */}
+            <div className="flex flex-row items-center text-sm md:text-lg font-medium justify-around cursor-pointer p-4 bg-[#2360ed] hover:bg-gray-200 rounded-xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-50 border border-gray-100 text-center shadow-lg w-full h-full">
+              <Image
+                src={"/zo.gif"}
+                alt={"Zo-logo"}
+                width={500}
+                height={500}
+                className="w-24 md:w-32 mb-2 md:mb-0 object-fill"
+              />
+              🍝🍤🍜
+              <p className="w-full font-['VT323','Courier',monospace] text-base md:text-2xl font-bold">
+                Weekly Meal Plan
+              </p>
+            </div>
+
+            {/* Second GIF div with retro font */}
+            <div className="flex flex-row items-center text-sm md:text-lg font-medium justify-around cursor-pointer p-4 md:p-6 rounded-xl bg-white border border-gray-100 text-center shadow-lg w-full h-full">
+              <Image
+                src={"/scan.gif"}
+                alt={"scan-logo"}
+                width={500}
+                height={500}
+                className="w-24 md:w-32 mb-2 md:mb-0 "
+              />
+              <div>
+
+              <p className="font-['VT323','Courier',monospace] text-base md:text-2xl font-bold">
+                Kally 
+              </p>
+              <p className="font-['VT323','Courier',monospace] text-base md:text-xl ">
+                Calorie Scanner
+              </p>
+              </div>
+            </div>
+          </div>
         </div>
       ) : (
         <div
