@@ -100,13 +100,13 @@ export default function Chatbot() {
           {/* GIF-based Divs - Changes from column on mobile to row on larger screens */}
           <div className="flex flex-col md:flex-row w-full md:w-3/4 items-center justify-center mb-10 md:mb-24 gap-4 md:gap-6 p-6 ">
             {/* First GIF div with retro font */}
-            <div className="flex flex-row items-center text-sm md:text-lg font-medium justify-around cursor-pointer p-4 bg-[#2360ed] hover:bg-gray-200 rounded-xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-50 border border-gray-100 text-center shadow-lg w-full h-full">
+            <div className="flex flex-row items-center text-sm md:text-lg font-medium justify-around cursor-pointer p-4 bg-[#2360ed] rounded-xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-50 border border-gray-100 text-center shadow-lg w-full h-full">
               <Image
                 src={"/zo.gif"}
                 alt={"Zo-logo"}
                 width={500}
                 height={500}
-                className="w-24 md:w-32 mb-2 md:mb-0 object-fill"
+                className="w-24 md:w-32 "
               />
               🍝🍤🍜
               <p className="w-full font-['VT323','Courier',monospace] text-base md:text-2xl font-bold">
@@ -121,7 +121,7 @@ export default function Chatbot() {
                 alt={"scan-logo"}
                 width={500}
                 height={500}
-                className="w-24 md:w-32 mb-2 md:mb-0 "
+                className="w-24 md:w-32 "
               />
               <div>
 
