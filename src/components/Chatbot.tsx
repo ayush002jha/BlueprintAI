@@ -82,7 +82,7 @@ export default function Chatbot() {
           </div>
         </div>
 
-        <div className="flex flex-col items-center justify-between w-full h-full p-2">
+        <div className="flex flex-col items-center gap-4 md:justify-between w-full h-full p-2">
           {/* Questions Grid - Responsive layout that goes from 1 column on mobile to 2 columns on larger screens */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full md:w-3/4 h-2/4 md:h-full xl:h-2/4 px-4 md:px-0 md:mb-6">
             {questions.map((q, index) => (
@@ -100,7 +100,7 @@ export default function Chatbot() {
           {/* GIF-based Divs - Changes from column on mobile to row on larger screens */}
           <div className="flex md:hidden xl:flex flex-col md:flex-row w-full md:w-3/4 items-center justify-center mb-10 md:mb-24 gap-4 md:gap-6 px-6 pt-0">
             {/* First GIF div with retro font */}
-            <div className="flex flex-row items-center text-sm md:text-lg font-medium justify-around cursor-pointer p-4 rounded-xl overflow-hidden border border-gray-100 text-center shadow-lg w-full h-full relative">
+            <div className="flex flex-row items-center text-sm md:text-lg font-medium justify-around cursor-pointer p-4 rounded-xl overflow-hidden border border-gray-100 text-center shadow-lg w-full h-24 md:h-full  relative">
               <div className="absolute inset-0 bg-blue-700 bg-opacity-80 z-0"></div>
               <div className="flex flex-row items-center justify-around w-full z-10 relative">
                 <Image
@@ -119,7 +119,7 @@ export default function Chatbot() {
             </div>
 
             {/* Second GIF div with retro font */}
-            <div className="flex flex-row items-center text-sm md:text-lg font-medium justify-around cursor-pointer p-4 md:p-6 rounded-xl overflow-hidden bg-white border border-gray-100 text-center shadow-lg w-full h-full">
+            <div className="flex flex-row items-center text-sm md:text-lg font-medium justify-around cursor-pointer p-4 md:p-6 rounded-xl overflow-hidden bg-white border border-gray-100 text-center shadow-lg w-full h-24 md:h-full">
               <Image
                 src={"/scan.gif"}
                 alt={"scan-logo"}
