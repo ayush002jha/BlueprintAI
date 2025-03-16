@@ -44,8 +44,7 @@ export default function Chatbot() {
 
   const handleQuestionClick = (question: string) => {
     setInput(question); // Set the input value
-    setShowQuestions(false);
-
+    
     // Programmatically submit the form after a short delay
     setTimeout(() => {
       const form = document.querySelector("form") as HTMLFormElement;
@@ -69,8 +68,11 @@ export default function Chatbot() {
 
   return (
     <>
-      {showQuestions && (
-        <div className="flex items-center justify-center gap-4 self-start px-4 md:px-12 my-6 md:my-12">
+      <div className={cn(
+        "transition-opacity duration-300",
+        showQuestions ? "opacity-100" : "opacity-0 pointer-events-none h-0 overflow-hidden"
+      )}>
+        <div className="flex items-center justify-start gap-4 px-4 md:px-12 my-2 md:my-6">
           <BounceLoader size={60} color="#0077CC" />
           <div>
             <p className="text-base md:text-lg font-light">Hi, You!</p>
@@ -79,136 +81,132 @@ export default function Chatbot() {
             </p>
           </div>
         </div>
-      )}
 
-      {showQuestions ? (
         <div className="flex flex-col items-center justify-between w-full h-full p-2">
-  {/* Questions Grid - Responsive layout that goes from 1 column on mobile to 2 columns on larger screens */}
-  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full md:w-3/4 h-2/4 px-4 md:px-0 mb-6">
-    {questions.map((q, index) => (
-      <button
-        key={index}
-        className="flex items-center text-sm md:text-lg font-medium justify-center p-4 md:p-6 hover:bg-gray-200 rounded-xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-90 border border-gray-100 text-center shadow-lg w-full h-full"
-        type="button"
-        onClick={() => handleQuestionClick(q)}
-      >
-        {q}
-      </button>
-    ))}
-  </div>
+          {/* Questions Grid - Responsive layout that goes from 1 column on mobile to 2 columns on larger screens */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full md:w-3/4 h-2/4 md:h-full xl:h-2/4 px-4 md:px-0 md:mb-6">
+            {questions.map((q, index) => (
+              <button
+                key={index}
+                className="flex items-center text-sm md:text-lg font-medium justify-center p-4 md:p-6 hover:bg-gray-200 rounded-xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-90 border border-gray-100 text-center shadow-lg w-full h-full"
+                type="button"
+                onClick={() => handleQuestionClick(q)}
+              >
+                {q}
+              </button>
+            ))}
+          </div>
 
-  {/* GIF-based Divs - Changes from column on mobile to row on larger screens */}
-  <div className="flex flex-col md:flex-row w-full md:w-3/4 items-center justify-center mb-10 md:mb-24 gap-4 md:gap-6 p-6">
-    {/* First GIF div with retro font */}
-    <div 
-      className="flex flex-row items-center text-sm md:text-lg font-medium justify-around cursor-pointer p-4 rounded-xl overflow-hidden border border-gray-100 text-center shadow-lg w-full h-full relative"
-      style={{
-        backgroundColor: 'rgba(35, 96, 237, 0.5)',
-        backdropFilter: 'blur(8px)',
-      }}
-    >
-      <div className="absolute inset-0 bg-[#2360ed] bg-opacity-50 z-0"></div>
-      <div className="flex flex-row items-center justify-around w-full z-10 relative">
-        <Image
-          src={"/zo.gif"}
-          alt={"Zo-logo"}
-          width={500}
-          height={500}
-          className="w-24 md:w-32"
-        />
-        <span className="mx-1">🍝🍤🍜</span>
-        <p className="w-full font-['VT323','Courier',monospace] text-base md:text-2xl font-bold">
-          Weekly Meal Plan
-        </p>
-      </div>
-    </div>
-
-    {/* Second GIF div with retro font */}
-    <div className="flex flex-row items-center text-sm md:text-lg font-medium justify-around cursor-pointer p-4 md:p-6 rounded-xl overflow-hidden bg-white border border-gray-100 text-center shadow-lg w-full h-full">
-      <Image
-        src={"/scan.gif"}
-        alt={"scan-logo"}
-        width={500}
-        height={500}
-        className="w-24 md:w-32"
-      />
-      <div>
-        <p className="font-['VT323','Courier',monospace] text-base md:text-2xl font-bold">
-          Kally 
-        </p>
-        <p className="font-['VT323','Courier',monospace] text-base md:text-xl">
-          Calorie Scanner
-        </p>
-      </div>
-    </div>
-  </div>
-</div>
-      ) : (
-        <div
-          className="flex flex-col items-end flex-1 overflow-y-auto p-4 md:p-10 pb-20 w-full h-full [&::-webkit-scrollbar]:w-2 
-            [&::-webkit-scrollbar-track]:bg-transparent
-            [&::-webkit-scrollbar-thumb]:bg-zinc-300 
-            [&::-webkit-scrollbar-thumb]:rounded-full
-            dark:[&::-webkit-scrollbar-thumb]:bg-zinc-600
-            hover:[&::-webkit-scrollbar-thumb]:bg-zinc-400
-            dark:hover:[&::-webkit-scrollbar-thumb]:bg-zinc-500"
-        >
-          {messages.map((m) => (
-            <div
-              key={m.id}
-              className={cn(
-                "whitespace-pre mb-4 flex gap-4 md:gap-6 p-4 bg-gray-100 rounded-xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-90 border border-gray-100",
-                m.role == "assistant" && "self-start"
-              )}
-            >
-              {m.role === "user" ? (
-                <>
-                  <ReactMarkdown
-                    className="prose prose-sm md:prose-lg whitespace-normal dark:prose-invert 
-                    [&>h1]:text-xl md:[&>h1]:text-2xl [&>h1]:font-bold [&>h1]:mb-4 [&>h1]:mt-6
-                    [&>h2]:text-lg md:[&>h2]:text-xl [&>h2]:font-semibold [&>h2]:mb-3 [&>h2]:mt-5
-                    [&>h3]:text-base md:[&>h3]:text-lg [&>h3]:font-medium [&>h3]:mb-2 [&>h3]:mt-4
-                    [&>p]:mb-4 [&>p]:leading-relaxed
-                    [&>ul]:list-disc [&>ul]:ml-6 [&>ul]:mb-4 [&>ul>li]:mb-2
-                    [&>ol]:list-decimal [&>ol]:ml-6 [&>ol]:mb-4 [&>ol>li]:mb-2
-                    [&>blockquote]:border-l-4 [&>blockquote]:border-gray-300 [&>blockquote]:pl-4 [&>blockquote]:italic
-                    [&>*:first-child]:mt-0"
-                    remarkPlugins={remarkPlugins}
-                    components={markdownComponents}
-                  >
-                    {m.content}
-                  </ReactMarkdown>
-                  <UserRound size={30} className="shrink-0" />
-                </>
-              ) : (
-                <>
-                  <BounceLoader
-                    size={30}
-                    color="#0077CC"
-                    className="shrink-0"
-                  />
-                  <ReactMarkdown
-                    className="prose prose-sm md:prose-lg whitespace-normal dark:prose-invert 
-                    [&>h1]:text-xl md:[&>h1]:text-2xl [&>h1]:font-bold [&>h1]:mb-4 [&>h1]:mt-6
-                    [&>h2]:text-lg md:[&>h2]:text-xl [&>h2]:font-semibold [&>h2]:mb-3 [&>h2]:mt-5
-                    [&>h3]:text-base md:[&>h3]:text-lg [&>h3]:font-medium [&>h3]:mb-2 [&>h3]:mt-4
-                    [&>p]:mb-4 [&>p]:leading-relaxed
-                    [&>ul]:list-disc [&>ul]:ml-6 [&>ul]:mb-4 [&>ul>li]:mb-2
-                    [&>ol]:list-decimal [&>ol]:ml-6 [&>ol]:mb-4 [&>ol>li]:mb-2
-                    [&>blockquote]:border-l-4 [&>blockquote]:border-gray-300 [&>blockquote]:pl-4 [&>blockquote]:italic
-                    [&>*:first-child]:mt-0"
-                    remarkPlugins={remarkPlugins}
-                    components={markdownComponents}
-                  >
-                    {m.content}
-                  </ReactMarkdown>
-                </>
-              )}
+          {/* GIF-based Divs - Changes from column on mobile to row on larger screens */}
+          <div className="flex md:hidden xl:flex flex-col md:flex-row w-full md:w-3/4 items-center justify-center mb-10 md:mb-24 gap-4 md:gap-6 px-6 pt-0">
+            {/* First GIF div with retro font */}
+            <div className="flex flex-row items-center text-sm md:text-lg font-medium justify-around cursor-pointer p-4 rounded-xl overflow-hidden border border-gray-100 text-center shadow-lg w-full h-full relative">
+              <div className="absolute inset-0 bg-blue-700 bg-opacity-80 z-0"></div>
+              <div className="flex flex-row items-center justify-around w-full z-10 relative">
+                <Image
+                  src={"/zo.gif"}
+                  alt={"Zo-logo"}
+                  width={500}
+                  height={500}
+                  className="w-24 md:w-32"
+                  priority
+                />
+                <span className="mx-1">🍝🍤🍜</span>
+                <p className="w-full font-['VT323','Courier',monospace] text-base md:text-2xl font-bold">
+                  Weekly Meal Plan
+                </p>
+              </div>
             </div>
-          ))}
-          <div ref={messagesEndRef} />
+
+            {/* Second GIF div with retro font */}
+            <div className="flex flex-row items-center text-sm md:text-lg font-medium justify-around cursor-pointer p-4 md:p-6 rounded-xl overflow-hidden bg-white border border-gray-100 text-center shadow-lg w-full h-full">
+              <Image
+                src={"/scan.gif"}
+                alt={"scan-logo"}
+                width={500}
+                height={500}
+                className="w-24 md:w-32"
+                priority
+              />
+              <div>
+                <p className="font-['VT323','Courier',monospace] text-base md:text-2xl font-bold">
+                  Kally 
+                </p>
+                <p className="font-['VT323','Courier',monospace] text-base md:text-xl">
+                  Calorie Scanner
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
-      )}
+      </div>
+
+      <div
+        className={cn(
+          "flex flex-col items-end flex-1 overflow-y-auto p-4 md:p-10 pb-20 w-full h-full",
+          "[&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-transparent",
+          "[&::-webkit-scrollbar-thumb]:bg-zinc-300 [&::-webkit-scrollbar-thumb]:rounded-full",
+          "dark:[&::-webkit-scrollbar-thumb]:bg-zinc-600",
+          "hover:[&::-webkit-scrollbar-thumb]:bg-zinc-400",
+          "dark:hover:[&::-webkit-scrollbar-thumb]:bg-zinc-500",
+          showQuestions ? "hidden" : "block"
+        )}
+      >
+        {messages.map((m) => (
+          <div
+            key={m.id}
+            className={cn(
+              "whitespace-pre mb-4 flex gap-4 md:gap-6 p-4 bg-gray-100 rounded-xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-90 border border-gray-100",
+              m.role == "assistant" && "self-start"
+            )}
+          >
+            {m.role === "user" ? (
+              <>
+                <ReactMarkdown
+                  className="prose prose-sm md:prose-lg whitespace-normal dark:prose-invert 
+                  [&>h1]:text-xl md:[&>h1]:text-2xl [&>h1]:font-bold [&>h1]:mb-4 [&>h1]:mt-6
+                  [&>h2]:text-lg md:[&>h2]:text-xl [&>h2]:font-semibold [&>h2]:mb-3 [&>h2]:mt-5
+                  [&>h3]:text-base md:[&>h3]:text-lg [&>h3]:font-medium [&>h3]:mb-2 [&>h3]:mt-4
+                  [&>p]:mb-4 [&>p]:leading-relaxed
+                  [&>ul]:list-disc [&>ul]:ml-6 [&>ul]:mb-4 [&>ul>li]:mb-2
+                  [&>ol]:list-decimal [&>ol]:ml-6 [&>ol]:mb-4 [&>ol>li]:mb-2
+                  [&>blockquote]:border-l-4 [&>blockquote]:border-gray-300 [&>blockquote]:pl-4 [&>blockquote]:italic
+                  [&>*:first-child]:mt-0"
+                  remarkPlugins={remarkPlugins}
+                  components={markdownComponents}
+                >
+                  {m.content}
+                </ReactMarkdown>
+                <UserRound size={30} className="shrink-0" />
+              </>
+            ) : (
+              <>
+                <BounceLoader
+                  size={30}
+                  color="#0077CC"
+                  className="shrink-0"
+                />
+                <ReactMarkdown
+                  className="prose prose-sm md:prose-lg whitespace-normal dark:prose-invert 
+                  [&>h1]:text-xl md:[&>h1]:text-2xl [&>h1]:font-bold [&>h1]:mb-4 [&>h1]:mt-6
+                  [&>h2]:text-lg md:[&>h2]:text-xl [&>h2]:font-semibold [&>h2]:mb-3 [&>h2]:mt-5
+                  [&>h3]:text-base md:[&>h3]:text-lg [&>h3]:font-medium [&>h3]:mb-2 [&>h3]:mt-4
+                  [&>p]:mb-4 [&>p]:leading-relaxed
+                  [&>ul]:list-disc [&>ul]:ml-6 [&>ul]:mb-4 [&>ul>li]:mb-2
+                  [&>ol]:list-decimal [&>ol]:ml-6 [&>ol]:mb-4 [&>ol>li]:mb-2
+                  [&>blockquote]:border-l-4 [&>blockquote]:border-gray-300 [&>blockquote]:pl-4 [&>blockquote]:italic
+                  [&>*:first-child]:mt-0"
+                  remarkPlugins={remarkPlugins}
+                  components={markdownComponents}
+                >
+                  {m.content}
+                </ReactMarkdown>
+              </>
+            )}
+          </div>
+        ))}
+        <div ref={messagesEndRef} />
+      </div>
 
       <div className="absolute bottom-0 left-0 right-0 px-4 md:px-10 pb-4">
         <form
