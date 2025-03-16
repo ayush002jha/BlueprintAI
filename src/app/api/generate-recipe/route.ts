@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { generateText } from 'ai';
 import { openai } from '@ai-sdk/openai';
+import { google } from '@ai-sdk/google';
 
 export const maxDuration = 30;
 
@@ -45,8 +46,9 @@ export async function POST(request: NextRequest) {
 
     console.log(prompt)
     const { text } = await generateText({
-      model: openai('gpt-4o-mini'),
-      system: 'You are a professional recipe generator. Create detailed, easy-to-follow recipes that match the given criteria. Include all nutritional information and preparation tips.',
+      // model: openai('gpt-4o-mini'),
+      model: google("gemini-2.0-flash-001"),
+      system: 'You are a professional recipe generator. Create detailed, easy-to-follow recipes that match the given criteria. Include all nutritional information and preparation tips. Your response will be in Markdown format, including relevant emojis. Directly start with the Recipie in your response in Markdown format, without any introductory sentences. It must be well-formatted.',
       prompt: prompt,
     });
 

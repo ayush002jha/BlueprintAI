@@ -29,9 +29,9 @@ export default function Chatbot() {
   const [showQuestions, setShowQuestions] = useState(true);
   const questions = [
     "🧬 What is Bryan Johnson's Don't Die Blueprint in simple terms?",
-    "🚀 What's the first step to start following the Blueprint?",
+    "🚀 How can i improve my health with Don't Die Blueprint??",
     "📊 What biomarkers does Blueprint track and why?",
-    "💸 What if I can't afford all Blueprint supplements?",
+    "💸 What supplements to take as a beginner?",
   ];
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });

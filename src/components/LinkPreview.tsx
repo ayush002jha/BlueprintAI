@@ -78,15 +78,15 @@ const OpenGraphPreview: React.FC<OpenGraphPreviewProps> = memo(({ url }) => {
       href={url} 
       target="_blank" 
       rel="noopener noreferrer" 
-      className="block no-underline hover:no-underline"
+      className="block no-underline hover:no-underline my-2"
     >
-      <div className="p-4 rounded-lg shadow-md hover:bg-gray-100 transition-colors duration-200 flex gap-2 items-center justify-between bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-0 border border-gray-100">
+      <div className="p-4 rounded-lg shadow-md hover:bg-gray-100 transition-colors duration-200 flex flex-col md:flex-row gap-2 items-center justify-between bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-0 border border-gray-100">
         {ogData.image && (
           <div className="flex-shrink-0">
             <img
               src={ogData.image}
               alt={ogData.title || ""}
-              className="w-40 h-22 object-cover rounded-md"
+              className="h-18 md:w-40 md:h-22 object-fill md:object-cover rounded-md"
               loading="lazy"
             />
           </div>
