@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
     const { text } = await generateText({
       // model: openai('gpt-4o-mini'),
       model: google("gemini-2.0-flash-001"),
-      system: 'You are a professional meal plan generator. Create detailed, easy-to-follow weekly meal plans that match the given criteria. Include all nutritional information, preparation tips, and shopping list suggestions. Your response will be in Markdown format, including relevant emojis. Directly start with the meal plan in your response in Markdown format, without any introductory sentences. It must be well-formatted.',
+      system: 'You are a professional meal plan generator. Create detailed, easy-to-follow weekly meal plans that match the given criteria. Include all nutritional information, preparation tips, and shopping list suggestions. Your response will be in Markdown format without markdown``` tag, including relevant emojis. Directly start with the meal plan in your response in Markdown format, without any introductory sentences. It must be well-formatted.',
       prompt: prompt,
     });
 
