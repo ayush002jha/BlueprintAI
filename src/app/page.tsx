@@ -8,34 +8,35 @@ import { Dna } from "lucide-react";
 import Blueprint from "@/components/Blueprint";
 import Recipe from "@/components/Recipe";
 import { useEffect, useState } from "react";
+import MealPlan from "@/components/MealPlan";
 
 export default function Chat() {
   const { selectedTab } = useTab();
   const [viewportHeight, setViewportHeight] = useState(0);
-  
+
   // Handle viewport height changes and address mobile browser address bar issues
   useEffect(() => {
     // Set initial viewport height
     setViewportHeight(window.innerHeight);
-    
+
     const handleResize = () => {
       // Use setTimeout to ensure we get the final height after any UI elements appear/disappear
       setTimeout(() => {
         setViewportHeight(window.innerHeight);
       }, 100);
     };
-    
+
     // Listen for resize and orientation change events
-    window.addEventListener('resize', handleResize);
-    window.addEventListener('orientationchange', handleResize);
-    
+    window.addEventListener("resize", handleResize);
+    window.addEventListener("orientationchange", handleResize);
+
     // Clean up event listeners
     return () => {
-      window.removeEventListener('resize', handleResize);
-      window.removeEventListener('orientationchange', handleResize);
+      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("orientationchange", handleResize);
     };
   }, []);
-  
+
   return (
     <div style={{ height: `${viewportHeight}px` }} className="overflow-hidden">
       <Vortex
@@ -51,12 +52,12 @@ export default function Chat() {
         <div className="absolute md:relative md:flex md:flex-col justify-center md:col-span-1">
           <FloatingDock />
         </div>
-        
+
         {/* Activity panel - only visible on xl screens */}
         <div className="hidden xl:flex xl:col-span-3">
           <Activity />
         </div>
-        
+
         {/* Main content area - adapts to different screen sizes */}
         <div className="col-span-1 md:col-span-10 xl:col-span-7 flex flex-col items-center min-h-full w-full rounded-none md:rounded-2xl bg-gray-500 bg-clip-padding backdrop-filter backdrop-blur-3xl bg-opacity-10 border">
           {/* Header section */}
@@ -72,16 +73,20 @@ export default function Chat() {
                 ? "Personalized Blueprint Generator"
                 : selectedTab === "Recipie Genie"
                 ? "Blueprint Recipe Generator"
+                : selectedTab === "Weekly Meal Plan"
+                ? "Zo Weekly Meal Plan Generator"
                 : "Blueprinting a Healthier You"}
             </p>
           </div>
-          
+
           {/* Content section - fills remaining height without causing overflow */}
           <div className="flex flex-col items-center flex-grow overflow-hidden w-full h-full">
             {selectedTab === "Home" ? (
               <Chatbot />
             ) : selectedTab === "Personalized BluePrint" ? (
               <Blueprint />
+            ) : selectedTab === "Weekly Meal Plan" ? (
+              <MealPlan />
             ) : (
               <Recipe />
             )}
