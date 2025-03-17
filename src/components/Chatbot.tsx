@@ -100,14 +100,8 @@ export default function Chatbot() {
           {/* GIF-based Divs - Changes from column on mobile to row on larger screens */}
           <div className="flex md:hidden xl:flex flex-col md:flex-row w-full md:w-3/4 items-center justify-center mb-10 md:mb-24 gap-4 md:gap-6 px-6 pt-0">
             {/* First GIF div with retro font */}
-<<<<<<< Updated upstream
-            <div className="flex flex-row items-center text-sm md:text-lg font-medium justify-around cursor-pointer p-4 rounded-xl overflow-hidden border border-gray-100 text-center shadow-lg w-full h-24 md:h-full  relative">
-              <div className="absolute inset-0 bg-blue-700 bg-opacity-80 z-0"></div>
-              <div className="flex flex-row items-center justify-around w-full z-10 relative">
-=======
             <div className="flex flex-row items-center text-sm md:text-lg font-medium bg-blue-700 justify-around cursor-pointer p-4 rounded-xl overflow-hidden border border-gray-100 text-center shadow-lg w-full h-24 md:h-full  relative">
               <div className="flex flex-row items-center justify-around w-full ">
->>>>>>> Stashed changes
                 <Image
                   src={"/zoho.png"}
                   alt={"Zo-logo"}
