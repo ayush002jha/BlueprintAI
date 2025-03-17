@@ -13,7 +13,6 @@ interface OpenGraphPreviewProps {
   url: string;
 }
 
-// Create a memoized version of the preview component
 const OpenGraphPreview: React.FC<OpenGraphPreviewProps> = memo(({ url }) => {
   const [ogData, setOgData] = useState<OpenGraphData | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -53,12 +52,10 @@ const OpenGraphPreview: React.FC<OpenGraphPreviewProps> = memo(({ url }) => {
     };
   }, [url]);
 
-  // Return early if loading
   if (isLoading) {
     return <div className="animate-pulse h-24 bg-gray-200 rounded-lg"></div>;
   }
 
-  // Return simple link if there's an error
   if (error) {
     return (
       <div className="text-blue-600 hover:underline">
@@ -78,23 +75,23 @@ const OpenGraphPreview: React.FC<OpenGraphPreviewProps> = memo(({ url }) => {
       href={url} 
       target="_blank" 
       rel="noopener noreferrer" 
-      className="block no-underline hover:no-underline my-2"
+      className="block no-underline hover:no-underline my-2 w-full"
     >
-      <div className="p-4 rounded-lg shadow-md hover:bg-gray-100 transition-colors duration-200 flex flex-col md:flex-row gap-2 items-center justify-between bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-0 border border-gray-100">
+      <div className="p-3 rounded-lg shadow-md hover:bg-gray-100 transition-colors duration-200 flex flex-col md:flex-row gap-3 items-center bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-0 border border-gray-200 w-full max-w-[90vw] md:max-w-full">
         {ogData.image && (
-          <div className="flex-shrink-0">
+          <div className="flex-shrink-0 w-full sm:w-24 md:w-32 lg:w-40">
             <img
               src={ogData.image}
               alt={ogData.title || ""}
-              className="h-18 md:w-40 md:h-22 object-fill md:object-cover rounded-md"
+              className="w-full h-auto object-cover rounded-md"
               loading="lazy"
             />
           </div>
         )}
         <div className="flex-grow flex flex-col justify-between min-w-0">
-          <div className="flex justify-between items-center gap-2">
+          <div className="flex justify-between items-center gap-2 w-full">
             <h3 className="font-medium truncate">{ogData.title}</h3>
-            <ArrowUpRight size={40} className="flex-shrink-0 w-12 p-2 rounded-lg" />
+            <ArrowUpRight size={20} className="flex-shrink-0" />
           </div>
           {ogData.description && (
             <p className="text-sm font-light line-clamp-2">{ogData.description}</p>
@@ -105,8 +102,5 @@ const OpenGraphPreview: React.FC<OpenGraphPreviewProps> = memo(({ url }) => {
   );
 });
 
-// Add display name for debugging
-OpenGraphPreview.displayName = 'OpenGraphPreview';
-
-// Wrap the component with React.memo
+OpenGraphPreview.displayName = "OpenGraphPreview";
 export default React.memo(OpenGraphPreview);

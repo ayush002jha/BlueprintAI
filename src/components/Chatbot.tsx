@@ -44,7 +44,7 @@ export default function Chatbot() {
 
   const handleQuestionClick = (question: string) => {
     setInput(question); // Set the input value
-    
+
     // Programmatically submit the form after a short delay
     setTimeout(() => {
       const form = document.querySelector("form") as HTMLFormElement;
@@ -68,10 +68,14 @@ export default function Chatbot() {
 
   return (
     <>
-      <div className={cn(
-        "transition-opacity duration-300",
-        showQuestions ? "opacity-100" : "opacity-0 pointer-events-none h-0 overflow-hidden"
-      )}>
+      <div
+        className={cn(
+          "transition-opacity duration-300",
+          showQuestions
+            ? "opacity-100"
+            : "opacity-0 pointer-events-none h-0 overflow-hidden"
+        )}
+      >
         <div className="flex items-center justify-start gap-4 px-4 md:px-12 my-2 md:my-6">
           <BounceLoader size={60} color="#0077CC" />
           <div>
@@ -100,7 +104,10 @@ export default function Chatbot() {
           {/* GIF-based Divs - Changes from column on mobile to row on larger screens */}
           <div className="flex md:hidden xl:flex flex-col md:flex-row w-full md:w-3/4 items-center justify-center mb-10 md:mb-24 gap-4 md:gap-6 px-6 pt-0">
             {/* First GIF div with retro font */}
-            <div className="flex flex-row items-center text-sm md:text-lg font-medium bg-blue-700 justify-around cursor-pointer p-4 rounded-xl overflow-hidden border border-gray-100 text-center shadow-lg w-full h-24 md:h-full  relative">
+            <div
+              onClick={() => updateSelectedTab("Weekly Meal Plan")}
+              className="flex flex-row items-center text-sm md:text-lg font-medium bg-blue-700 justify-around cursor-pointer p-4 rounded-xl overflow-hidden border border-gray-100 text-center shadow-lg w-full h-24 md:h-full  relative"
+            >
               <div className="flex flex-row items-center justify-around w-full ">
                 <Image
                   src={"/zoho.png"}
@@ -129,7 +136,7 @@ export default function Chatbot() {
               />
               <div>
                 <p className="font-['VT323','Courier',monospace] text-base md:text-2xl font-bold">
-                  Kally 
+                  Kally
                 </p>
                 <p className="font-['VT323','Courier',monospace] text-base md:text-xl">
                   Calorie Scanner
@@ -148,14 +155,14 @@ export default function Chatbot() {
           "dark:[&::-webkit-scrollbar-thumb]:bg-zinc-600",
           "hover:[&::-webkit-scrollbar-thumb]:bg-zinc-400",
           "dark:hover:[&::-webkit-scrollbar-thumb]:bg-zinc-500",
-          showQuestions ? "hidden" : "block"
+          showQuestions ? "hidden" : "flex"
         )}
       >
         {messages.map((m) => (
           <div
             key={m.id}
             className={cn(
-              "whitespace-pre mb-4 flex gap-4 md:gap-6 p-4 bg-gray-100 rounded-xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-90 border border-gray-100",
+              "whitespace-pre mb-4 w-auto flex gap-4 md:gap-6 p-4 bg-gray-100 rounded-xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-90 border border-gray-100",
               m.role == "assistant" && "self-start"
             )}
           >
@@ -180,13 +187,9 @@ export default function Chatbot() {
               </>
             ) : (
               <>
-                <BounceLoader
-                  size={30}
-                  color="#0077CC"
-                  className="shrink-0"
-                />
+                <BounceLoader size={30} color="#0077CC" className="shrink-0" />
                 <ReactMarkdown
-                  className="prose prose-sm md:prose-lg whitespace-normal dark:prose-invert 
+                  className=" prose prose-sm md:prose-lg whitespace-normal dark:prose-invert 
                   [&>h1]:text-xl md:[&>h1]:text-2xl [&>h1]:font-bold [&>h1]:mb-4 [&>h1]:mt-6
                   [&>h2]:text-lg md:[&>h2]:text-xl [&>h2]:font-semibold [&>h2]:mb-3 [&>h2]:mt-5
                   [&>h3]:text-base md:[&>h3]:text-lg [&>h3]:font-medium [&>h3]:mb-2 [&>h3]:mt-4

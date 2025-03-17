@@ -2,7 +2,7 @@
 import { cn } from "@/lib/utils";
 import React from "react";
 import { HomeIcon, BookText, CookingPot, Menu, X } from "lucide-react";
-
+import Image from "next/image";
 import {
   AnimatePresence,
   MotionValue,
@@ -31,6 +31,20 @@ const links = [
     href: "/recipie",
     icon: <CookingPot />,
   },
+  {
+    title: "Weekly Meal Plan",
+    href: "/weekly",
+    icon: (
+      <Image
+        src={"/zoho.png"}
+        alt={"Zo-logo"}
+        width={500}
+        height={500}
+        className=""
+        priority
+      />
+    ),
+  },
 ];
 
 const renderIcon = (selected: string, title: string, icon: React.ReactNode) => (
@@ -52,15 +66,15 @@ export const FloatingDock = ({
     const checkIfMobile = () => {
       setIsMobile(window.innerWidth < 768); // 768px is the md breakpoint in Tailwind
     };
-    
+
     // Check initially
     checkIfMobile();
-    
+
     // Add resize listener
-    window.addEventListener('resize', checkIfMobile);
-    
+    window.addEventListener("resize", checkIfMobile);
+
     // Cleanup
-    return () => window.removeEventListener('resize', checkIfMobile);
+    return () => window.removeEventListener("resize", checkIfMobile);
   }, []);
 
   return (
@@ -138,16 +152,16 @@ const FloatingDockMobile = ({
                 }`}
                 onClick={() => handleItemClick(item.title)}
                 initial={{ opacity: 0, y: 20 }}
-                animate={{ 
-                  opacity: 1, 
+                animate={{
+                  opacity: 1,
                   y: 0,
-                  transition: { delay: 0.05 * (items.length - index) }
+                  transition: { delay: 0.05 * (items.length - index) },
                 }}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
               >
                 <div className="w-6 h-6">{item.icon}</div>
-                
+
                 {/* Tooltip */}
                 <div className="absolute right-14 bg-neutral-800 text-white px-2 py-1 rounded text-sm whitespace-nowrap">
                   {item.title}
