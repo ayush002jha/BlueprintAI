@@ -155,11 +155,12 @@ export function Camera() {
     <div className="absolute top-0 left-0 w-full z-10 bg-black/40 backdrop-blur-sm flex items-center justify-center ">
       <div className="pt-4 pb-2 px-4 md:px-10 self-start w-full">
         <div className="flex items-center gap-2 md:gap-4">
-          <h1 className="text-5xl md:text-6xl text-gray-100 font-bold tracking-tight font-[family-name:var(--font-space-grotesk)]">
+          <h1 className="text-4xl md:text-6xl text-gray-700 font-bold tracking-tight font-[family-name:var(--font-space-grotesk)]">
             Blueprint AI
           </h1>
           <Dna size={50} className="md:size-50" color="#0077CC" />
         </div>
+
         <p className="px-2 italic font-medium text-base md:text-lg text-gray-200">
           Kally Calorie Scanner
         </p>

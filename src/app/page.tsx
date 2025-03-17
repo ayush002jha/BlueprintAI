@@ -64,12 +64,12 @@ export default function Chat() {
           {/* Header section */}
           <div className="pt-4 pb-2 px-4 md:px-10 self-start w-full">
             <div className="flex items-center gap-2 md:gap-4">
-              <h1 className="text-5xl md:text-6xl text-gray-700 font-bold tracking-tight font-[family-name:var(--font-space-grotesk)]">
+              <h1 className="text-4xl md:text-6xl text-gray-700 font-bold tracking-tight font-[family-name:var(--font-space-grotesk)]">
                 Blueprint AI
               </h1>
               <Dna size={50} className="md:size-50" color="#0077CC" />
             </div>
-            <p className="px-2 italic font-medium text-base md:text-lg">
+            <p className="px-2 italic font-medium text-sm md:text-lg">
               {selectedTab === "Personalized BluePrint"
                 ? "Personalized Blueprint Generator"
                 : selectedTab === "Recipie Genie"

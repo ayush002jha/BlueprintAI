@@ -88,8 +88,20 @@ export default function Chatbot() {
 
         <div className="flex flex-col items-center gap-4 md:justify-between w-full h-full p-2">
           {/* Questions Grid - Responsive layout that goes from 1 column on mobile to 2 columns on larger screens */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full md:w-3/4 h-2/4 md:h-full xl:h-2/4 px-4 md:px-0 md:mb-6">
+          <div className="hidden md:grid grid-cols-1 md:grid-cols-2 gap-4 w-full md:w-3/4 h-2/4 md:h-full xl:h-2/4 px-4 md:px-0 md:mb-6">
             {questions.map((q, index) => (
+              <button
+                key={index}
+                className="flex items-center text-sm md:text-lg font-medium justify-center p-4 md:p-6 hover:bg-gray-200 rounded-xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-90 border border-gray-100 text-center shadow-lg w-full h-full"
+                type="button"
+                onClick={() => handleQuestionClick(q)}
+              >
+                {q}
+              </button>
+            ))}
+          </div>
+          <div className="md:hidden grid grid-cols-1 md:grid-cols-2 gap-2 w-full md:w-3/4 h-2/4 md:h-full xl:h-2/4 px-4 md:px-0 md:mb-6">
+            {questions.slice(0, 2).map((q, index) => (
               <button
                 key={index}
                 className="flex items-center text-sm md:text-lg font-medium justify-center p-4 md:p-6 hover:bg-gray-200 rounded-xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-90 border border-gray-100 text-center shadow-lg w-full h-full"
@@ -102,7 +114,7 @@ export default function Chatbot() {
           </div>
 
           {/* GIF-based Divs - Changes from column on mobile to row on larger screens */}
-          <div className="flex md:hidden xl:flex flex-col md:flex-row w-full md:w-3/4 items-center justify-center mb-10 md:mb-24 gap-4 md:gap-6 px-6 pt-0">
+          <div className="flex md:hidden xl:flex flex-col md:flex-row w-full md:w-3/4 items-center justify-center mb-10 md:mb-24 gap-2 md:gap-6 px-6 pt-0">
             {/* First GIF div with retro font */}
             <div
               onClick={() => updateSelectedTab("Weekly Meal Plan")}
