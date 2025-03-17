@@ -125,7 +125,10 @@ export default function Chatbot() {
             </div>
 
             {/* Second GIF div with retro font */}
-            <div className="flex flex-row items-center text-sm md:text-lg font-medium justify-around cursor-pointer p-4 md:p-6 rounded-xl overflow-hidden bg-white border border-gray-100 text-center shadow-lg w-full h-24 md:h-full">
+            <div
+              onClick={() => updateSelectedTab("Kally")}
+              className="flex flex-row items-center text-sm md:text-lg font-medium justify-around cursor-pointer p-4 md:p-6 rounded-xl overflow-hidden bg-white border border-gray-100 text-center shadow-lg w-full h-24 md:h-full"
+            >
               <Image
                 src={"/scan.gif"}
                 alt={"scan-logo"}

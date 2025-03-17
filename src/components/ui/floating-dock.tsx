@@ -1,7 +1,7 @@
 // src/components/ui/floating-dock.tsx
 import { cn } from "@/lib/utils";
 import React from "react";
-import { HomeIcon, BookText, CookingPot, Menu, X } from "lucide-react";
+import { HomeIcon, BookText, CookingPot, Menu, X, Camera } from "lucide-react";
 import Image from "next/image";
 import {
   AnimatePresence,
@@ -44,6 +44,11 @@ const links = [
         priority
       />
     ),
+  },
+  {
+    title: "Kally",
+    href: "/kally",
+    icon: <Camera />,
   },
 ];
 

@@ -9,6 +9,7 @@ import Blueprint from "@/components/Blueprint";
 import Recipe from "@/components/Recipe";
 import { useEffect, useState } from "react";
 import MealPlan from "@/components/MealPlan";
+import { Camera } from "@/components/camera";
 
 export default function Chat() {
   const { selectedTab } = useTab();
@@ -87,6 +88,8 @@ export default function Chat() {
               <Blueprint />
             ) : selectedTab === "Weekly Meal Plan" ? (
               <MealPlan />
+            ) : selectedTab === "Kally" ? (
+              <Camera />
             ) : (
               <Recipe />
             )}
