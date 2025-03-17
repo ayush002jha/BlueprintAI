@@ -107,7 +107,7 @@ export default function Chatbot() {
                   alt={"Zo-logo"}
                   width={500}
                   height={500}
-                  className="w-24 md:w-32"
+                  className="w-24 md:w-32 invert"
                   priority
                 />
                 <span className="mx-1">🍝🍤🍜</span>
