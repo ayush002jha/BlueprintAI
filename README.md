@@ -1,6 +1,6 @@
 # Blueprint AI - Longevity Companion 🤖💙
 
-[![Demo Video](https://img.youtube.com/vi/34BXeCM75dU/maxresdefault.jpg)](https://youtu.be/34BXeCM75dU)
+[![Demo Video](https://img.youtube.com/vi/34BXeCM75dU/maxresdefault.jpg)](https://blueprintai.vercel.app)
 
 AI-powered Q&A and personalization engine implementing Bryan Johnson's "Don't Die" protocol. Built with Next.js, Pinecone, and LangChain.
 
